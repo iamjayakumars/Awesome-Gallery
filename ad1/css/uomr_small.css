@@ -1,0 +1,63 @@
+.bgPart { position: relative; }
+.bgCar { bottom: 50px; }
+.smallAdvert { visibility: hidden; }
+.smallAdvert.show { visibility: visible; }
+.sub.subDisplay { opacity: 1; }
+.sub2 { bottom: 150px; }
+.sub3 { bottom: 40px; }
+.sub3.chrome { bottom: 60px; }
+.sub4 { top: 70px; }
+.sub5 { bottom: 80px; }
+.sub6 { left: 100px; }
+.sub7 { left: 80px; }
+.unsupported.show { visibility: visible; }
+
+.slide {
+  position: absolute;
+  top: 300px;
+  width: 300px;
+  height: 300px;
+  opacity: 0;
+  transition:
+    top 2s linear,
+    opacity 2s linear,
+    width 2s linear;
+  -webkit-transition:
+    top 2s linear,
+    opacity 2s linear,
+    width 2s linear;
+}
+
+.slide.slideDisplay {
+  top: 0px;
+  opacity: 1;
+}
+
+.slide1 {
+  z-index: 1;
+  background-image: url("images/background1.png");
+}
+
+.slide2 {
+  z-index: 2;
+  background-image: url("images/background2.png");
+}
+
+.slide3 {
+  z-index: 3;
+  background-image: url("images/background3.png");
+}
+
+.sub {
+  position: relative;
+  opacity: 0;
+  transition: opacity 1s ease-in;
+  -webkit-transition: opacity 1s ease-in;
+}
+
+.unsupported {
+  position: relative;
+  bottom: 120px;
+  color: rgb(255, 0, 0);
+  visibility: hidden;
+}
