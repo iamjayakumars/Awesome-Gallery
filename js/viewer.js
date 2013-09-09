@@ -1,6 +1,6 @@
 /**
  * @author Daniel Desira
- * @version 0.3.1
+ * @version 0.4
  */
 
 (function () {
@@ -141,8 +141,3 @@ window.awesomeGallery = function (options) {
 };
 
 })();
-awesomeGallery({
-  imageSelector: '#main_photo',
-  imagesSelector: '.photos',
-  quickSetup: true
-});
