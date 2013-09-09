@@ -1,0 +1,66 @@
+#capture_button { opacity: 0; }
+#image_input_opt_container > button { visibility: hidden; }
+#image_input_opt_container.view > button { visibility: visible; }
+#photo_input { display: none; }
+#photo_previewer img { max-height: 100px; }
+#webcam_container.view > #capture_button { opacity: 1; }
+
+#image_input_opt_container {
+	position: absolute;
+	top: 17px;
+	left: 40px;
+	z-index: 1;
+}
+
+#input_mask {
+	position: absolute;
+	left: 70px;
+}
+
+#photo_previewer {
+	position: absolute;
+	top: 19px;
+	right: 0px;
+	z-index: 2;
+}
+
+#photo_previewer > div {
+	height: 150px;
+	float: right;
+}
+
+#photo_previewer input {
+	position: relative;
+	top: 20px;
+	left: -110px;
+	width: 100px;
+}
+
+#image_input_opt_container,
+#photo_previewer {
+	opacity: 0;
+	max-height: 0px;
+	transition: opacity .2s ease-in;
+	-moz-transition: opacity .2s ease-in;
+	-webkit-transition: opacity .2s ease-in;
+	-o-transition: opacity .2s ease-in;
+	-ms-transittion: opacity .2s ease-in;
+}
+
+#image_input_opt_container.view,
+#photo_previewer.view {
+	opacity: 1;
+}
+
+#webcam_container {
+	position: absolute;
+	top: 10px;
+	left: 30%;
+	max-height: 0px;
+	max-width: 0px;
+}
+
+#webcam_container.view {
+	max-height: 500px;
+	max-width: 500px;
+}

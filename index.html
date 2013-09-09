@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<link href="style/layout.css" rel="stylesheet" />
+		<link href="style/photo_input_layout.css" rel="stylesheet" />
+
+		<link href="style/themes/fade.css" rel="stylesheet" />
+    <!--
+		<link href="style/themes/shrink.css" rel="stylesheet" disabled />
+		<link href="style/themes/rect.css" rel="stylesheet" disabled />
+		<link href="style/themes/sway.css" rel="stylesheet" disabled />
+		<link href="style/themes/rotate2D.css" rel="stylesheet" disabled />
+		<link href="style/themes/rotate3D.css" rel="stylesheet" disabled />
+-->
+		<title>Awesome Gallery 0.4</title>
+	</head>
+	<body>
+		<div class="container"><!--
+			<button id="themes_button">Themes</button>
+			<menu id="theme_choice"></menu>
+
+			<input accept="image/*" id="photo_input" type="file" multiple="multiple" />
+			<div id="input_mask_container">
+				<button id="input_mask">Add photo(s)</button>
+				<div id="image_input_opt_container"></div>
+			</div>
+
+			<section id="webcam_container">
+				<button id="capture_button">Capture</button>
+				<br />
+				<video id="preview">&ltvideo&gt is not supported by your browser.</video>
+			</section>
+
+			<section id="photo_previewer">
+				<button id="confirm_button">Done</button>
+			</section>-->
+
+      <div class="photoStrip">
+        <img class="photo" src="https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-prn1/524265_442728492500806_1762015287_n.jpg" />
+        <img class="photo" src="https://fbcdn-sphotos-h-a.akamaihd.net/hphotos-ak-prn2/v/1148092_3520596591198_1678544952_n.jpg?oh=eb430be85b8f4f9a55345992fdab4aa8&oe=522D40FC&__gda__=1378725118_05062c239da5136d086568eb8b7d7aea" />
+        <img class="photo" src="https://fbcdn-sphotos-b-a.akamaihd.net/hphotos-ak-frc3/1044733_3313993386247_679963066_n.jpg" />
+      </div>
+
+			<figure id="photo_frame">
+				<img class="printable view mainPhoto" id="mainPhoto" />
+				<figcaption>
+					<em class="printable" id="description"></em>
+					<em class="printable" id="distance"></em>
+				</figcaption>
+			</figure>
+<!--
+			<section id="errors">
+				<div id="noGeolocation"></div>
+				<div id="noLocation"></div>
+				<div id="noLocalStorage"></div>
+				<div id="noPhotoInput"></div>
+				<div id="webcamError"></div>
+			</section>
+-->
+			<button id="slideshow">Start slideshow</button>
+
+			<button id="prev"></button>
+			<button id="next"></button>
+		</div>
+
+		<script src="js/viewer.js"></script>
+		<script src="js/theming.js"></script>
+    <script src="js/main.js"></script>
+	</body>
+</html>

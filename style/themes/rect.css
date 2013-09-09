@@ -1,0 +1,11 @@
+#photo {
+    max-height: 100px;
+    position: absolute;
+    clip: rect(450px, 550px, 550px, 450px);
+}
+
+#photo.view {
+    position: relative;
+    max-height: 700px;
+    clip: auto;
+}

@@ -1,0 +1,19 @@
+#photo {
+	max-height: 0px;
+	min-height: 0px;
+	min-width: 0px;
+}
+
+#photo.view {
+    max-height: 800px;
+    min-height: 400px;
+}
+
+@media screen and (max-width: 360px) and (max-height: 640px) {
+    #photo { left: 1%;}
+    
+    #photo.view {
+        max-height: 80%;
+        max-width: 100%;
+    }
+}

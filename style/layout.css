@@ -1,0 +1,119 @@
+@font-face {
+    font-family: Old Standard;
+    src: url('OldStandard-Regular.otf');
+}
+
+body {
+    text-align: center;
+    background-color: black;
+    color: white;
+    font-family: Old Standard;
+}
+
+button {
+    background-color: black;
+    color: white;
+    border: black;
+}
+
+button:hover {
+    background-color: red;
+    color: DodgerBlue;
+}
+
+a,
+button,
+#theme_choice {
+    -moz-transition: all ease-in .2s;
+    -webkit-transition: all ease-in .2s;
+    -o-transition: all ease-in .2s;
+    -ms-transition: all ease-in .2s;
+    transition: all ease-in .2s;
+}
+
+noscript>div {
+    border-radius: 10px;
+    background-color: red;
+}
+
+#noscript_instructions {
+    max-height: 0px;
+    opacity: 0;
+    margin-left: 20%;
+    margin-right: 20%;
+    text-align: left;
+    -moz-transition: all ease-in .5s;
+	-webkit-transition: all ease-in .5s;
+	-o-transition: all ease-in .5s;
+	-ms-transition: all ease-in .5s;
+	transition: all ease-in .5s;
+}
+
+#noscript_instructions:target {
+    max-height: 1000px;
+    opacity: 1;
+}
+
+#slideshow {
+    position: inherit;
+    top: 0px;
+    right: 0px;
+}
+
+#themes_button {
+    position: inherit;
+    top: 0px;
+    left: 0px;
+}
+
+#theme_choice {
+    position: inherit;
+    top: 7px;
+    max-height: 0px;
+    width: 100px;
+    overflow: auto;
+    border: solid black 1px;
+    border-radius: 6px;
+}
+
+#theme_choice.view {
+    max-height: 200px;
+    border-color: white;
+    z-index: 3;
+}
+
+#prev,
+#next {
+    position: inherit;
+    top: 48.5%;
+}
+
+.container {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+#prev { left: 1.5%; }
+#next { right: 1.5%; }
+button.slideshow { display: none; }
+
+.mainPhoto {
+    position: absolute;
+    top: 200px;
+    left: 30%;
+    max-height: 700px;
+    max-width: 800px;
+    min-height: 400px;
+    min-width: 400px;
+    margin-top: 10px;
+    background-color: white;
+    transition: all ease-in 1s;
+}
+
+.photo {
+    float: left;
+    height: 150px;
+}
