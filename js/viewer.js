@@ -7,7 +7,7 @@
 
 "use strict";
 
-var currentImage, delay, photos, touchStartX,
+var currentImage, imageDescription, delay, photos, touchStartX,
   galleryActivated = true,
   photoIndex = 0,
   Switcher = (function () {
@@ -38,15 +38,19 @@ var currentImage, delay, photos, touchStartX,
     };
 
     function changePhoto () {
-      currentImage.classList.remove("view");
+      currentImage.classList.remove('view');
       setTimeout(function() {
         currentImage.src = photos[ photoIndex ].src;
         currentImage.onload = function() {
-          currentImage.classList.add("view");
-          //imageDescription.textContent = photos[ photoSwitcher.getPhotoIndex() ].description;
+          currentImage.classList.add('view');
+          if (imageDescription) {
+            imageDescription.textContent = photos[ photoSwitcher.getPhotoIndex() ].description;
+          }
         };
+        
+        //Chrome appears to not support <img> alt text.
         currentImage.onerror = function() {
-          descriptionElement.textContent = "Unable to fetch image!";
+          imageDescription.textContent = 'Unable to fetch image!';
         };
       }, delay);
     }
@@ -113,6 +117,10 @@ window.awesomeGallery = function (options) {
   }
   currentImage.src = photos[0].src;
   currentImage.classList.add('view');
+  
+  if (options.descriptionSelector) {
+    imageDescription = document.querySelector(options.descriptionSelector);
+  }
 
   delay = options.delay ?
     options.delay :
