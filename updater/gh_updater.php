@@ -17,7 +17,7 @@ class AGUpdater {
   
   public static function download_update( $recepient_dir ) {
     $code = file_get_contents( self::URL_BASE . '/:' . self::get_latest_download() );
-    file_put_contents( $recepient_dir . '/awesome-gallery-min.js' );
+    return file_put_contents( $recepient_dir . '/awesome-gallery-min.js' );
   }
   
 }
