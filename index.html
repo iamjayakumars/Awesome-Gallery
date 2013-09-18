@@ -6,35 +6,29 @@
 		<link href="style/photo_input_layout.css" rel="stylesheet" />
 
 		<link href="style/themes/fade.css" rel="stylesheet" />
-    <!--
-		<link href="style/themes/shrink.css" rel="stylesheet" disabled />
-		<link href="style/themes/rect.css" rel="stylesheet" disabled />
-		<link href="style/themes/sway.css" rel="stylesheet" disabled />
-		<link href="style/themes/rotate2D.css" rel="stylesheet" disabled />
-		<link href="style/themes/rotate3D.css" rel="stylesheet" disabled />
--->
+
 		<title>Awesome Gallery 0.4</title>
 	</head>
 	<body>
-		<div class="container"><!--
-			<button id="themes_button">Themes</button>
+		<div class="container">
+			<button id="themes_button" class="button">Themes</button>
 			<menu id="theme_choice"></menu>
 
 			<input accept="image/*" id="photo_input" type="file" multiple="multiple" />
 			<div id="input_mask_container">
-				<button id="input_mask">Add photo(s)</button>
+				<button id="input_mask" class="button">Add photo(s)</button>
 				<div id="image_input_opt_container"></div>
 			</div>
 
 			<section id="webcam_container">
-				<button id="capture_button">Capture</button>
+				<button id="capture_button" class="button">Capture</button>
 				<br />
 				<video id="preview">&ltvideo&gt is not supported by your browser.</video>
 			</section>
 
 			<section id="photo_previewer">
-				<button id="confirm_button">Done</button>
-			</section>-->
+				<button id="confirm_button" class="button">Done</button>
+			</section>
 
       <div class="photoStrip">
         <img class="photo" src="https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-prn1/524265_442728492500806_1762015287_n.jpg" />
@@ -42,7 +36,7 @@
         <img class="photo" src="https://fbcdn-sphotos-b-a.akamaihd.net/hphotos-ak-frc3/1044733_3313993386247_679963066_n.jpg" />
       </div>
 
-			<figure id="photo_frame">
+			<figure id="photo_frame" class="photoFrame">
 				<img class="printable view mainPhoto" id="mainPhoto" />
 				<figcaption>
 					<em class="printable" id="description"></em>
@@ -58,10 +52,10 @@
 				<div id="webcamError"></div>
 			</section>
 -->
-			<button id="slideshow">Start slideshow</button>
+			<button id="slideshow" class="button">Start slideshow</button>
 
-			<button id="prev"></button>
-			<button id="next"></button>
+			<button id="prev" class="galleryNavButton"></button>
+			<button id="next" class="galleryNavButton"></button>
 		</div>
 
 		<script src="js/viewer.js"></script>
