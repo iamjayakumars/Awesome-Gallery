@@ -31,29 +31,6 @@ button,
     transition: all ease-in .2s;
 }
 
-noscript>div {
-    border-radius: 10px;
-    background-color: red;
-}
-
-#noscript_instructions {
-    max-height: 0px;
-    opacity: 0;
-    margin-left: 20%;
-    margin-right: 20%;
-    text-align: left;
-    -moz-transition: all ease-in .5s;
-	-webkit-transition: all ease-in .5s;
-	-o-transition: all ease-in .5s;
-	-ms-transition: all ease-in .5s;
-	transition: all ease-in .5s;
-}
-
-#noscript_instructions:target {
-    max-height: 1000px;
-    opacity: 1;
-}
-
 #slideshow {
     position: relative;
     right: 40%;
@@ -106,6 +83,10 @@ button.slideshow { display: none; }
     max-width: 800px;
     background-color: rgb(255, 255, 255);
     transition: all ease-in 1s;
+}
+
+.noscript {
+    background-color: rgb(255, 0, 0);
 }
 
 .photo {
