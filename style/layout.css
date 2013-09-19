@@ -111,6 +111,11 @@ button.slideshow { display: none; }
 .photo {
     float: left;
     height: 100%;
+    transition: border-width 100ms;
+}
+
+.photo.selected {
+    border: rgb(0, 50, 100) solid 5px;
 }
 
 .photoStrip {
