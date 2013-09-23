@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<svg width="37" height="250"
-version="1.1" xmlns="http://www.w3.org/2000/svg">
-  <rect height="43" width="54" style="fill:rgb(0, 100, 255)"></rect>
-  <rect y="43" height="43" width="54" style="fill:rgb(0, 255, 0)"></rect>
-  <polygon points="0,86 56,86 0,129" style="fill:rgb(255, 0, 0)"></polygon>
-  <rect y="130" height="43" width="54" style="fill:rgb(0, 0, 0)"></rect>
-</svg>
