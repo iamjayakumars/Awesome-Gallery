@@ -5,7 +5,7 @@ class Login extends CI_Controller {
     function index() {
         $this->load->helper(array('form', 'url'));
         $this->load->library('form_validation');
-        $this->load->library('control_panel_db');
+        $this->load->model('control_panel_db');
         $this->load->model('admin');
         
         $this->form_validation->set_rules('username', 'Username', 'required');
