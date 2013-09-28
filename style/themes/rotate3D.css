@@ -1,15 +1,9 @@
-#photo {
-    transform: rotateY(90deg);
-    -moz-transform: rotateY(90deg);
-    -webkit-transform: rotateY(90deg);
-    -o-transform: rotateY(90deg);
-    -ms-transform: rotateY(90deg);
+.mainPhoto {
+    transform: skew(-10deg) rotate3d(0, 1, 0, 90deg);
+    -webkit-transform: skew(-10deg) rotate3d(0, 1, 0, 90deg);
 }
 
-#photo.view {
-    transform: rotateY(0deg);
-    -moz-transform: rotateY(0deg);
-    -webkit-transform: rotateY(0deg);
-    -o-transform: rotateY(0deg);
-    -ms-tramsform: rotateY(0deg);
+.mainPhoto.view {
+    transform: rotate3d(0, 0, 0, 0deg);
+    -webkit-transform: rotate3d(0, 0, 0, 0deg);
 }
