@@ -1,13 +1,13 @@
 body {
     text-align: center;
-    background-color: black;
-    color: white;
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
 }
 
 button {
     background-color: black;
     color: white;
-    border: black;
+    border: rgb(0, 0, 0);
 }
 
 button:hover {
@@ -18,10 +18,7 @@ button:hover {
 a,
 button,
 #theme_choice {
-    -moz-transition: all ease-in .2s;
     -webkit-transition: all ease-in .2s;
-    -o-transition: all ease-in .2s;
-    -ms-transition: all ease-in .2s;
     transition: all ease-in .2s;
 }
 
