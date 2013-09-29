@@ -1,13 +1,7 @@
-@font-face {
-    font-family: Old Standard;
-    src: url('OldStandard-Regular.otf');
-}
-
 body {
     text-align: center;
     background-color: black;
     color: white;
-    font-family: Old Standard;
 }
 
 button {
