@@ -1,10 +1,10 @@
-#photo {
+.mainPhoto {
     max-height: 100px;
     position: absolute;
-    clip: rect(450px, 550px, 550px, 450px);
+    clip: rect(0px, 0px, 0px, 0px);
 }
 
-#photo.view {
+.mainPhoto.view {
     position: relative;
     max-height: 700px;
     clip: auto;
