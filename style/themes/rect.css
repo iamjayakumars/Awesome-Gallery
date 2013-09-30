@@ -1,11 +1,9 @@
 .mainPhoto {
-    max-height: 100px;
     position: absolute;
     clip: rect(0px, 0px, 0px, 0px);
 }
 
 .mainPhoto.view {
     position: relative;
-    max-height: 700px;
     clip: auto;
 }
