@@ -130,7 +130,7 @@ window.awesomeGallery = function (options) {
     })();
 
   currentImage.addEventListener('click', Switcher.next);
-  document.onkeydown = handleKeyDown;
+  document.addEventListener('keydown' , handleKeyDown);
   currentImage.addEventListener('touchstart', handleTouchStart);
   currentImage.addEventListener('touchend', handleTouchEnd);
   registerHandler(options.slideshow, Switcher.slideshow);
