@@ -20,8 +20,7 @@ var currentImage, imageDescription, delay, photos, touchStartX,
     };
 
     Switcher.prev = function () {
-      photoIndex--;
-      photoIndex = (photoIndex === -1 ? photos.length - 1 : photoIndex);
+      photoIndex = ((--photoIndex) === -1 ? photos.length - 1 : photoIndex);
       changePhoto();
     };
 
