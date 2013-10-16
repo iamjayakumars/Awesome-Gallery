@@ -1,6 +1,6 @@
 /**
  * @author Daniel Desira
- * @version 0.4
+ * @version 0.4.2
  */
 
 (function () {
@@ -99,7 +99,9 @@ function registerHandler(property, callback) {
 }
 
 window.awesomeGallery = function (options) {
-  currentImage = document.querySelector(options.imageSelector);
+  var $ = document.querySelector;
+  
+  currentImage = $(options.imageSelector);
   if (options.imagesSelector) {
     photos = document.querySelectorAll(options.imagesSelector);
     for (photoIndex = 0; photoIndex < photos.length; photoIndex++) {
@@ -118,7 +120,7 @@ window.awesomeGallery = function (options) {
   currentImage.classList.add('view');
   
   if (options.descriptionSelector) {
-    imageDescription = document.querySelector(options.descriptionSelector);
+    imageDescription = $(options.descriptionSelector);
   }
 
   delay = options.delay ?
@@ -138,7 +140,7 @@ window.awesomeGallery = function (options) {
   registerHandler(options.prev, Switcher.prev);
   
   if (options.gallerySelector) {
-    _activateGallery(document.querySelector(options.gallerySelector));
+    _activateGallery($(options.gallerySelector));
     galleryActivated = false;
   }
   
