@@ -5,7 +5,7 @@
 
 (function () {
 
-"use strict";
+'use strict';
 
 var currentImage, imageDescription, delay, photos, touchStartX,
   galleryActivated = true,
