@@ -49,7 +49,9 @@ var currentImage, imageDescription, delay, photos, touchStartX,
         
         //Chrome appears to not support <img> alt text.
         currentImage.onerror = function() {
-          imageDescription.textContent = 'Unable to fetch image!';
+          if (/Chrome|Opera/.test( navigator.userAgent )) {
+            imageDescription.textContent = 'Unable to fetch image!';
+          }
         };
       }, delay);
     }
