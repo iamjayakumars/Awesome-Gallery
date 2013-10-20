@@ -1,6 +1,6 @@
 /**
  * @author Daniel Desira
- * @version 0.4.2
+ * @version 0.5
  */
 
 (function () {
@@ -24,8 +24,9 @@ var currentImage, imageDescription, delay, photos, touchStartX,
       changePhoto();
     };
 
-    Switcher.goto = function () {
-      setTimeout(changePhoto, 1000);
+    Switcher.goto = function (index) {
+      photoIndex = index;
+      setTimeout(changePhoto, delay);
     };
     
     Switcher.slideshow = function () {
@@ -110,8 +111,7 @@ window.awesomeGallery = function (options) {
     for (photoIndex = 0; photoIndex < photos.length; photoIndex++) {
       (function (i) {
         photos[photoIndex].addEventListener('click', function () {
-          photoIndex = i;
-          Switcher.goto();
+          Switcher.goto(i);
         });
       })(photoIndex);
     }
