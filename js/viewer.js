@@ -104,10 +104,12 @@ function $(selector) {
   return document.querySelector(selector);
 }
 
-window.awesomeGallery = function (options) {
-  currentImage = $(options.imageSelector);
+window.AG = {};
+
+AG.init = function (options) {
+  currentImage = $(options.$image);
   if (options.imagesSelector) {
-    photos = document.querySelectorAll(options.imagesSelector);
+    photos = document.querySelectorAll(options.$$images);
     for (photoIndex = 0; photoIndex < photos.length; photoIndex++) {
       (function (i) {
         photos[photoIndex].addEventListener('click', function () {
@@ -122,8 +124,8 @@ window.awesomeGallery = function (options) {
   currentImage.src = photos[0].src;
   currentImage.classList.add('view');
   
-  if (options.descriptionSelector) {
-    imageDescription = $(options.descriptionSelector);
+  if (options.$description) {
+    imageDescription = $(options.$description);
   }
 
   delay = options.delay ?
@@ -150,6 +152,11 @@ window.awesomeGallery = function (options) {
   if (options.quickSetup) {
     Switcher.slideshow();
   }
+};
+
+AG.extend = function (callback, methodName) {
+  
+  
 };
 
 })();
