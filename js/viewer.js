@@ -99,9 +99,11 @@ function registerHandler(property, callback) {
   }
 }
 
+function $(selector) {
+  return document.querySelector(selector);
+}
+
 window.awesomeGallery = function (options) {
-  var $ = document.querySelector;
-  
   currentImage = $(options.imageSelector);
   if (options.imagesSelector) {
     photos = document.querySelectorAll(options.imagesSelector);
