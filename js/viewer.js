@@ -49,9 +49,8 @@ var currentImage, imageDescription, delay, photos, touchStartX,
         
         //Work-around: WebKit and Blink do not display <img> alt text.
         currentImage.onerror = function() {
-          if (/WebKit/.test( navigator.userAgent )) {
-            imageDescription.textContent = 'Unable to fetch image!';
-          }
+          imageDescription.textContent = (/WebKit/.test( navigator.userAgent ) ?
+                imageDescription.textContent : '') + ' Unable to fetch image!';
         };
       }, delay);
     }
