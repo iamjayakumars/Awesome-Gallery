@@ -140,8 +140,8 @@ AG.init = function (options) {
   registerHandler(options.next, Switcher.next);
   registerHandler(options.prev, Switcher.prev);
   
-  if (options.gallerySelector) {
-    _activateGallery($(options.gallerySelector));
+  if (options.$gallery) {
+    _activateGallery( $( options.$gallery ) );
     galleryActivated = false;
   }
   
