@@ -61,11 +61,7 @@ var currentImage, imageDescription, delay, photos, touchStartX,
 
 function _activateGallery(gallery) {
   document.documentElement.addEventListener('click', function (event) {
-    if (event.target === gallery) {
-      galleryActivated = true;
-    } else {
-      galleryActivated = false;
-    }
+    galleryActivated = (event.target === gallery);
   });
 }
 
@@ -168,6 +164,8 @@ AG.extend = function (callback, methodName) {
         galleryActivated: galleryActivated
       }
     };
+  
+  
   
   callback(exports);
   if (methodName) {
