@@ -60,8 +60,11 @@ var currentImage, imageDescription, delay, photos, touchStartX,
   })();
 
 function _activateGallery(gallery) {
-  document.documentElement.addEventListener('click', function (event) {
+  document.documentElement.addEventListener( 'click' , function (event) {
+    var event = document.createEvent( 'HTMLEvents' );
+    event.initEvent( 'galleryActivated' , true , true );
     galleryActivated = (event.target === gallery);
+    gallery.dispatchEvent( event );
   });
 }
 
@@ -165,7 +168,10 @@ AG.extend = function (callback, methodName) {
       }
     };
   
-  
+  gallery.addEventListener( 'galleryActivated' , function () {
+    exports.galleryActivated = galleryActivated;
+    callback(exports);
+  });
   
   callback(exports);
   if (methodName) {
