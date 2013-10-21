@@ -7,7 +7,7 @@
 
 'use strict';
 
-var currentImage, imageDescription, delay, photos, touchStartX,
+var currentImage, imageDescription, delay, photos, touchStartX, prev, next, startSlideshow, stopSlideshow,
   galleryActivated = true,
   photoIndex = 0,
   Switcher = (function () {
@@ -26,23 +26,23 @@ var currentImage, imageDescription, delay, photos, touchStartX,
 
     Switcher.goto = function (index) {
       photoIndex = index;
-      setTimeout(changePhoto, delay);
+      setTimeout( changePhoto , delay );
     };
     
     Switcher.slideshow = function () {
-      interval = setInterval(Switcher.next, delay * 4);
+      interval = setInterval( Switcher.next , delay * 4 );
     };
     
     Switcher.stopSlideshow = function () {
-      clearInterval(interval);
+      clearInterval( interval );
     };
 
     function changePhoto () {
-      currentImage.classList.remove('view');
+      currentImage.classList.remove( 'view' );
       setTimeout(function() {
         currentImage.src = photos[ photoIndex ].src;
         currentImage.onload = function() {
-          currentImage.classList.add('view');
+          currentImage.classList.add( 'view' );
           if (imageDescription) {
             imageDescription.textContent = photos[ photoSwitcher.getPhotoIndex() ].description;
           }
@@ -91,27 +91,26 @@ function handleTouchEnd(event) {
   event.preventDefault();
 }
 
-function registerHandler(property, callback) {
-  if (typeof property === 'function') {
-    property(callback);
-  } else if (property) {
-    throw 'Property not a function!';
-  }
+function registerClick(element, selector, action) {
+  element = $( selector );
+  element.addEventListener( 'click' , function () {
+    Switcher[action];
+  });
 }
 
 function $(selector) {
-  return document.querySelector(selector);
+  return document.querySelector( selector );
 }
 
 window.AG = {};
 
 AG.init = function (options) {
-  currentImage = $(options.$image);
+  currentImage = $( options.$image );
   if (options.imagesSelector) {
-    photos = document.querySelectorAll(options.$$images);
+    photos = document.querySelectorAll( options.$$images );
     for (photoIndex = 0; photoIndex < photos.length; photoIndex++) {
       (function (i) {
-        photos[photoIndex].addEventListener('click', function () {
+        photos[photoIndex].addEventListener( 'click' , function () {
           Switcher.goto(i);
         });
       })(photoIndex);
@@ -130,18 +129,18 @@ AG.init = function (options) {
   delay = options.delay ?
     options.delay :
     (function () {
-      var transitionDuration = getComputedStyle(currentImage).transitionDuration;
-      return parseFloat(transitionDuration.substring(0, transitionDuration.length - 1)) * 1000;
+      var transitionDuration = getComputedStyle( currentImage ).transitionDuration;
+      return parseFloat( transitionDuration.substring( 0, transitionDuration.length - 1 ) ) * 1000;
     })();
 
-  currentImage.addEventListener('click', Switcher.next);
-  document.addEventListener('keydown' , handleKeyDown);
-  currentImage.addEventListener('touchstart', handleTouchStart);
-  currentImage.addEventListener('touchend', handleTouchEnd);
-  registerHandler(options.slideshow, Switcher.slideshow);
-  registerHandler(options.stopSlideshow, Switcher.stopSlideshow);
-  registerHandler(options.next, Switcher.next);
-  registerHandler(options.prev, Switcher.prev);
+  currentImage.addEventListener( 'click' , Switcher.next );
+  document.addEventListener( 'keydown' , handleKeyDown );
+  currentImage.addEventListener( 'touchstart' , handleTouchStart );
+  currentImage.addEventListener( 'touchend' , handleTouchEnd );
+  registerClick( prev , options.$prev , 'prev' );
+  registerClick( next , options.$next , 'next' );
+  registerClick( startSlideshow , options.$slideshow , 'slideshow' );
+  registerClick( stopSlideshow , options.$stopSlideshow , 'stopSlideshow' );
   
   if (options.$gallery) {
     _activateGallery( $( options.$gallery ) );
@@ -170,13 +169,13 @@ AG.extend = function (callback, methodName) {
   
   gallery.addEventListener( 'galleryActivated' , function () {
     exports.galleryActivated = galleryActivated;
-    callback(exports);
+    callback( exports );
   });
   
-  callback(exports);
+  callback( exports );
   if (methodName) {
     AG[methodName] = function () {
-      callback(exports);
+      callback( exports );
     };
   }
 };
