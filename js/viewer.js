@@ -155,8 +155,26 @@ AG.init = function (options) {
 };
 
 AG.extend = function (callback, methodName) {
+  var exports = {
+      Switcher: Switcher,
+      dom: {
+        prev: prev,
+        next: next,
+        slideshowStart: slideshowStart,
+        slideshowEnd: slideshowEnd,
+        image: currentImage,
+        description: imageDecription,
+        images: !Array.isArray( photos ) ? photos : null,
+        galleryActivated: galleryActivated
+      }
+    };
   
-  
+  callback(exports);
+  if (methodName) {
+    AG[methodName] = function () {
+      callback(exports);
+    };
+  }
 };
 
 })();
