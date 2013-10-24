@@ -24,13 +24,13 @@ var currentImage, imageDescription, delay, photos, touchStartX, prev, next, star
       changePhoto();
     };
 
-    Switcher.goto = function (index) {
+    Switcher.goto = function ( index ) {
       photoIndex = index;
-      setTimeout( changePhoto , delay );
+      setTimeout( changePhoto, delay );
     };
     
     Switcher.slideshow = function () {
-      interval = setInterval( Switcher.next , delay * 4 );
+      interval = setInterval( Switcher.next, delay * 4 );
     };
     
     Switcher.stopSlideshow = function () {
@@ -53,22 +53,22 @@ var currentImage, imageDescription, delay, photos, touchStartX, prev, next, star
           imageDescription.textContent = (/WebKit/.test( navigator.userAgent ) ?
                 imageDescription.textContent : '') + ' Unable to fetch image!';
         };
-      }, delay);
+      }, delay );
     }
     
     return Switcher;
   })();
 
-function _activateGallery(gallery) {
-  document.documentElement.addEventListener( 'click' , function (event) {
+function _activateGallery( gallery ) {
+  document.documentElement.addEventListener( 'click', function ( event ) {
     var event = document.createEvent( 'HTMLEvents' );
-    event.initEvent( 'galleryActivated' , true , true );
+    event.initEvent( 'galleryActivated', true, true );
     galleryActivated = (event.target === gallery);
     gallery.dispatchEvent( event );
   });
 }
 
-function handleKeyDown(event) {
+function handleKeyDown( event ) {
   if (galleryActivated) {
     if (event.keyCode === 37) {
       Switcher.prev();
@@ -78,11 +78,11 @@ function handleKeyDown(event) {
   }
 }
 
-function handleTouchStart(event) {
+function handleTouchStart( event ) {
   touchStartX = event.touches[0].pageX;
 }
 
-function handleTouchEnd(event) {
+function handleTouchEnd( event ) {
   if (event.touches[0].pageX > touchStartX) {
     Switcher.prev();
   } else if (event.touches[0].pageX < touchStartX) {
@@ -91,39 +91,40 @@ function handleTouchEnd(event) {
   event.preventDefault();
 }
 
-function registerClick(element, selector, action) {
-  element = $( selector );
-  element.addEventListener( 'click' , function () {
+function registerButtonClick( action, selector ) {
+  var element = (selector ? $( selector ) : document.createElement( 'a' ));
+  element.addEventListener( 'click', function () {
     Switcher[action];
   });
+  return element;
 }
 
-function $(selector) {
+function $( selector ) {
   return document.querySelector( selector );
 }
 
 window.AG = {};
 
-AG.init = function (options) {
+AG.init = function ( options ) {
   currentImage = $( options.$image );
   if (options.imagesSelector) {
     photos = document.querySelectorAll( options.$$images );
     for (photoIndex = 0; photoIndex < photos.length; photoIndex++) {
       (function (i) {
-        photos[photoIndex].addEventListener( 'click' , function () {
-          Switcher.goto(i);
+        photos[photoIndex].addEventListener( 'click', function () {
+          Switcher.goto( i );
         });
-      })(photoIndex);
+      })( photoIndex );
     }
     photoIndex = 0;
   } else {
     photos = options.photos;
   }
   currentImage.src = photos[0].src;
-  currentImage.classList.add('view');
+  currentImage.classList.add( 'view' );
   
   if (options.$description) {
-    imageDescription = $(options.$description);
+    imageDescription = $( options.$description );
   }
 
   delay = options.delay ?
@@ -133,14 +134,14 @@ AG.init = function (options) {
       return parseFloat( transitionDuration.substring( 0, transitionDuration.length - 1 ) ) * 1000;
     })();
 
-  currentImage.addEventListener( 'click' , Switcher.next );
-  document.addEventListener( 'keydown' , handleKeyDown );
-  currentImage.addEventListener( 'touchstart' , handleTouchStart );
-  currentImage.addEventListener( 'touchend' , handleTouchEnd );
-  registerClick( prev , options.$prev , 'prev' );
-  registerClick( next , options.$next , 'next' );
-  registerClick( startSlideshow , options.$slideshow , 'slideshow' );
-  registerClick( stopSlideshow , options.$stopSlideshow , 'stopSlideshow' );
+  currentImage.addEventListener( 'click', Switcher.next );
+  document.addEventListener( 'keydown', handleKeyDown );
+  currentImage.addEventListener( 'touchstart', handleTouchStart );
+  currentImage.addEventListener( 'touchend', handleTouchEnd );
+  prev = registerButtonClick( 'prev', options.$prev );
+  next = registerButtonClick( 'next', options.$next );
+  startSlideshow = registerButtonClick( 'slideshow', options.$slideshow );
+  stopSlideshow = registerButtonClick( 'stopslideshow', options.$stopSlideshow );
   
   if (options.$gallery) {
     _activateGallery( $( options.$gallery ) );
@@ -149,10 +150,14 @@ AG.init = function (options) {
   
   if (options.quickSetup) {
     Switcher.slideshow();
+    prev = registerButtonClick( 'prev' );
+    next = registerButtonClick( 'next' );
+    startSlideshow = registerButtonClick( 'slideshow' );
+    stopSlideshow = registerButtonClick( 'stopslideshow' );
   }
 };
 
-AG.extend = function (callback, methodName) {
+AG.extend = function ( callback, methodName ) {
   var exports = {
       Switcher: Switcher,
       dom: {
@@ -167,7 +172,7 @@ AG.extend = function (callback, methodName) {
       }
     };
   
-  gallery.addEventListener( 'galleryActivated' , function () {
+  gallery.addEventListener( 'galleryActivated', function () {
     exports.galleryActivated = galleryActivated;
     callback( exports );
   });
