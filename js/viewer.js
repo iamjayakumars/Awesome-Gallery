@@ -157,31 +157,29 @@ AG.init = function ( options ) {
   }
 };
 
+AG.exports = {
+    Switcher: Switcher,
+    dom: {
+      prev: prev,
+      next: next,
+      slideshowStart: slideshowStart,
+      slideshowEnd: slideshowEnd,
+      image: currentImage,
+      description: imageDecription,
+      images: !Array.isArray( photos ) ? photos : null,
+      galleryActivated: galleryActivated
+    }
+  };
+
 AG.extend = function ( callback, methodName ) {
-  var exports = {
-      Switcher: Switcher,
-      dom: {
-        prev: prev,
-        next: next,
-        slideshowStart: slideshowStart,
-        slideshowEnd: slideshowEnd,
-        image: currentImage,
-        description: imageDecription,
-        images: !Array.isArray( photos ) ? photos : null,
-        galleryActivated: galleryActivated
-      }
-    };
-  
   gallery.addEventListener( 'galleryActivated', function () {
-    exports.galleryActivated = galleryActivated;
-    callback( exports );
+    AG.exports.galleryActivated = galleryActivated;
   });
   
-  callback( exports );
   if (methodName) {
-    AG[methodName] = function () {
-      callback( exports );
-    };
+    AG[methodName] = callback;
+  } else {
+    callback();
   }
 };
 
