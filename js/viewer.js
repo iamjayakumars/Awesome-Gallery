@@ -37,11 +37,11 @@ var currentImage, imageDescription, delay, photos, touchStartX, prev, next, star
       clearInterval( interval );
     };
 
-    function changePhoto () {
+    function changePhoto() {
       currentImage.classList.remove( 'view' );
       setTimeout(function() {
         currentImage.src = photos[ photoIndex ].src;
-        currentImage.onload = function() {
+        currentImage.onload = function () {
           currentImage.classList.add( 'view' );
           if (imageDescription) {
             imageDescription.textContent = photos[ photoSwitcher.getPhotoIndex() ].description;
@@ -49,7 +49,7 @@ var currentImage, imageDescription, delay, photos, touchStartX, prev, next, star
         };
         
         //Work-around: WebKit and Blink do not display <img> alt text.
-        currentImage.onerror = function() {
+        currentImage.onerror = function () {
           imageDescription.textContent = (/WebKit/.test( navigator.userAgent ) ?
                 imageDescription.textContent : '') + ' Unable to fetch image!';
         };
@@ -176,11 +176,7 @@ AG.extend = function ( callback, methodName ) {
     AG.exports.galleryActivated = galleryActivated;
   });
   
-  if (methodName) {
-    AG[methodName] = callback;
-  } else {
-    callback();
-  }
+  methodName ? (AG[methodName] = callback) : callback();
 };
 
 })();
