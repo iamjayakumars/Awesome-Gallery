@@ -1,0 +1,9 @@
+.mainPhoto {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.mainPhoto.view {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+}

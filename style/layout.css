@@ -1,0 +1,96 @@
+body {
+    text-align: center;
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+}
+
+button {
+    background-color: black;
+    color: white;
+    border: rgb(0, 0, 0);
+}
+
+button:hover {
+    background-color: red;
+    color: DodgerBlue;
+}
+
+a,
+button,
+#theme_choice {
+    -webkit-transition: all ease-in .2s;
+    transition: all ease-in .2s;
+}
+
+#slideshow {
+    position: relative;
+    right: 40%;
+}
+
+#themes_button {
+    position: inherit;
+    top: 0px;
+    left: 0px;
+}
+
+#theme_choice {
+    position: inherit;
+    top: 7px;
+    max-height: 0px;
+    width: 100px;
+    overflow: auto;
+    border: solid black 1px;
+    border-radius: 6px;
+}
+
+#theme_choice.view {
+    max-height: 200px;
+    border-color: white;
+    z-index: 3;
+}
+
+#prev,
+#next {
+    position: inherit;
+    top: 48.5%;
+}
+
+.container {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+#prev { left: 1.5%; }
+#next { right: 1.5%; }
+button.slideshow { display: none; }
+
+.mainPhoto {
+    position: relative;
+    top: 50px;
+    max-height: 700px;
+    max-width: 800px;
+    background-color: rgb(255, 255, 255);
+    transition: all ease-in 1s;
+}
+
+.noscript {
+    color: rgb(255, 0, 0);
+}
+
+.photo {
+    float: left;
+    height: 100%;
+    transition: border-width 100ms;
+}
+
+.photo.selected {
+    border: rgb(0, 50, 100) solid 5px;
+}
+
+.photoStrip {
+    width: 100%;
+    height: 150px;
+}

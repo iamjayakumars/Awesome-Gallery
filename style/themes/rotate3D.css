@@ -1,0 +1,9 @@
+.mainPhoto {
+    transform: skew(-10deg) rotate3d(0, 1, 0, 90deg);
+    -webkit-transform: skew(-10deg) rotate3d(0, 1, 0, 90deg);
+}
+
+.mainPhoto.view {
+    transform: rotate3d(0, 0, 0, 0deg);
+    -webkit-transform: rotate3d(0, 0, 0, 0deg);
+}
