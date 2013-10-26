@@ -44,7 +44,7 @@ var currentImage, imageDescription, delay, photos, touchStartX, prev, next, star
         currentImage.onload = function () {
           currentImage.classList.add( 'view' );
           if (imageDescription) {
-            imageDescription.textContent = photos[ photoSwitcher.getPhotoIndex() ].description;
+            imageDescription.textContent = photos[ photoSwitcher.getPhotoIndex() ].alt;
           }
         };
         
