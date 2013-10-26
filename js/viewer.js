@@ -155,6 +155,8 @@ AG.init = function ( options ) {
     startSlideshow = registerButtonClick( 'slideshow' );
     stopSlideshow = registerButtonClick( 'stopslideshow' );
   }
+  
+  return AG;
 };
 
 AG.exports = {
@@ -177,6 +179,8 @@ AG.extend = function ( callback, methodName ) {
   });
   
   methodName ? (AG[methodName] = callback) : callback();
+  
+  return AG;
 };
 
 })();
