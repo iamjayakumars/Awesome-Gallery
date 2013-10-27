@@ -7,7 +7,8 @@
 
 'use strict';
 
-var SELECTION_CLASS = 'selected';
+var SELECTION_CLASS = 'selected',
+  TRANSITION_CLASS = 'view';
 
 var currentImage, photoIndex, imageDescription, delay, photos, touchStartX, prev, next, startSlideshow, stopSlideshow,
   
@@ -41,11 +42,11 @@ var currentImage, photoIndex, imageDescription, delay, photos, touchStartX, prev
     };
 
     function changePhoto() {
-      currentImage.classList.remove( 'view' );
+      currentImage.classList.remove( TRANSITION_CLASS );
       setTimeout(function() {
         currentImage.src = photos[ photoIndex ].src;
         currentImage.onload = function () {
-          currentImage.classList.add( 'view' );
+          currentImage.classList.add( TRANSITION_CLASS );
           if (imageDescription) {
             imageDescription.textContent = photos[ photoSwitcher.getPhotoIndex() ].alt;
           }
@@ -153,7 +154,7 @@ AG.init = function ( options ) {
   
   selectImage( photos[0] );
   currentImage.src = photos[0].src;
-  currentImage.classList.add( 'view' );
+  currentImage.classList.add( TRANSITION_CLASS );
   
   if (options.$description) {
     imageDescription = $( options.$description );
