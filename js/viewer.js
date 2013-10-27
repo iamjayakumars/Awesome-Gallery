@@ -112,6 +112,7 @@ AG.init = function ( options ) {
     for (photoIndex = 0; photoIndex < photos.length; photoIndex++) {
       (function (i) {
         photos[photoIndex].addEventListener( 'click', function () {
+          this.classList.add( 'selected' );
           Switcher.goto( i );
         });
       })( photoIndex );
