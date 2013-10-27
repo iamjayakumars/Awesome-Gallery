@@ -1,27 +1,30 @@
 /**
- * @author Daniel Desira
- * @version 0.5
- */
+* @author Daniel Desira
+* @version 0.5
+*/
 
 (function () {
 
 'use strict';
 
-var currentImage, imageDescription, delay, photos, touchStartX, prev, next, startSlideshow, stopSlideshow,
-  galleryActivated = true,
-  photoIndex = 0,
+var SELECTION_CLASS = 'selected';
+
+var currentImage, photoIndex, imageDescription, delay, photos, touchStartX, prev, next, startSlideshow, stopSlideshow,
+  
   Switcher = (function () {
     var interval,
       Switcher = {};
     
     Switcher.next = function () {
-      photoIndex = (++photoIndex) % photos.length;
-      changePhoto();
+      flipPhoto(function (index) {
+        return (++index) % photos.length;
+      });
     };
 
     Switcher.prev = function () {
-      photoIndex = ((--photoIndex) === -1 ? photos.length - 1 : photoIndex);
-      changePhoto();
+      flipPhoto(function (index) {
+        return (--index) === -1 ? photos.length - 1 : index;
+      });
     };
 
     Switcher.goto = function ( index ) {
@@ -56,20 +59,39 @@ var currentImage, imageDescription, delay, photos, touchStartX, prev, next, star
       }, delay );
     }
     
+    function flipPhoto( callback ) {
+      var index = photoIndex;
+      index = callback( index );
+      selectImage( photos[index] );
+      photoIndex = index;
+      changePhoto();
+    }
+    
     return Switcher;
-  })();
+  })(),
+  
+  exports = {
+    Switcher: Switcher,
+    dom: {
+      prev: prev,
+      next: next,
+      slideshowStart: startSlideshow,
+      slideshowEnd: stopSlideshow,
+      image: currentImage,
+      description: imageDescription,
+      images: !Array.isArray( photos ) ? photos : null,
+      galleryActivated: true
+    }
+  };
 
 function _activateGallery( gallery ) {
   document.documentElement.addEventListener( 'click', function ( event ) {
-    var event = document.createEvent( 'HTMLEvents' );
-    event.initEvent( 'galleryActivated', true, true );
-    galleryActivated = (event.target === gallery);
-    gallery.dispatchEvent( event );
+    exports.dom.galleryActivated = (event.target === gallery);
   });
 }
 
 function handleKeyDown( event ) {
-  if (galleryActivated) {
+  if (exports.dom.galleryActivated) {
     if (event.keyCode === 37) {
       Switcher.prev();
     } else if (event.keyCode === 39) {
@@ -103,16 +125,23 @@ function $( selector ) {
   return document.querySelector( selector );
 }
 
+function selectImage( image ) {
+  if (image.classList) {
+    image.classList.add( SELECTION_CLASS );
+    image !== photos[photoIndex] ? photos[photoIndex].classList.remove( SELECTION_CLASS ) : undefined;
+  }
+}
+
 window.AG = {};
 
 AG.init = function ( options ) {
   currentImage = $( options.$image );
-  if (options.imagesSelector) {
+  if (options.$$images) {
     photos = document.querySelectorAll( options.$$images );
     for (photoIndex = 0; photoIndex < photos.length; photoIndex++) {
       (function (i) {
         photos[photoIndex].addEventListener( 'click', function () {
-          this.classList.add( 'selected' );
+          selectImage( photos[i] );
           Switcher.goto( i );
         });
       })( photoIndex );
@@ -121,6 +150,8 @@ AG.init = function ( options ) {
   } else {
     photos = options.photos;
   }
+  
+  selectImage( photos[0] );
   currentImage.src = photos[0].src;
   currentImage.classList.add( 'view' );
   
@@ -146,7 +177,7 @@ AG.init = function ( options ) {
   
   if (options.$gallery) {
     _activateGallery( $( options.$gallery ) );
-    galleryActivated = false;
+    exports.dom.galleryActivated = false;
   }
   
   if (options.quickSetup) {
@@ -160,26 +191,10 @@ AG.init = function ( options ) {
   return AG;
 };
 
-AG.exports = {
-    Switcher: Switcher,
-    dom: {
-      prev: prev,
-      next: next,
-      slideshowStart: slideshowStart,
-      slideshowEnd: slideshowEnd,
-      image: currentImage,
-      description: imageDecription,
-      images: !Array.isArray( photos ) ? photos : null,
-      galleryActivated: galleryActivated
-    }
-  };
-
 AG.extend = function ( callback, methodName ) {
-  gallery.addEventListener( 'galleryActivated', function () {
-    AG.exports.galleryActivated = galleryActivated;
-  });
-  
-  methodName ? (AG[methodName] = callback) : callback();
+  methodName ? (AG[methodName] = function () {
+    callback( exports );
+  }) : callback( exports );
   
   return AG;
 };
