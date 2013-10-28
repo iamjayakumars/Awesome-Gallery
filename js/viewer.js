@@ -7,8 +7,7 @@
 
 'use strict';
 
-var SELECTION_CLASS = 'selected',
-  TRANSITION_CLASS = 'view';
+var TRANSITION_CLASS = 'view';
 
 var currentImage, photoIndex, imageDescription, delay, photos, touchStartX, prev, next, startSlideshow, stopSlideshow,
   
@@ -126,6 +125,7 @@ function $( selector ) {
 }
 
 function selectImage( image ) {
+  var SELECTION_CLASS = 'selected'
   if (image.classList) {
     image.classList.add( SELECTION_CLASS );
     image !== photos[photoIndex] ? photos[photoIndex].classList.remove( SELECTION_CLASS ) : undefined;
