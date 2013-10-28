@@ -29,6 +29,7 @@ var currentImage, photoIndex, imageDescription, delay, photos, touchStartX, prev
     };
 
     Switcher.goto = function ( index ) {
+      selectImage( photos[index] );
       photoIndex = index;
       setTimeout( changePhoto, delay );
     };
@@ -116,9 +117,7 @@ function handleTouchEnd( event ) {
 
 function registerButtonClick( action, selector ) {
   var element = (selector ? $( selector ) : document.createElement( 'a' ));
-  element.addEventListener( 'click', function () {
-    Switcher[action];
-  });
+  element.addEventListener( 'click', Switcher[action] );
   return element;
 }
 
@@ -142,7 +141,6 @@ AG.init = function ( options ) {
     for (photoIndex = 0; photoIndex < photos.length; photoIndex++) {
       (function (i) {
         photos[photoIndex].addEventListener( 'click', function () {
-          selectImage( photos[i] );
           Switcher.goto( i );
         });
       })( photoIndex );
