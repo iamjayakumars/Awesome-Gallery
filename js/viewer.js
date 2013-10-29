@@ -44,7 +44,7 @@ var photoIndex, delay, photos, touchStartX,
     function changePhoto() {
       ag.dom.image.classList.remove( TRANSITION_CLASS );
       setTimeout(function() {
-        ag.dom.image.src = photos[ photoIndex ].src;
+        ag.dom.image.src = photos[photoIndex].bigsrc ? photos[photoIndex].bigsrc : photos[photoIndex].src;
         ag.dom.image.onload = function () {
           ag.dom.image.classList.add( TRANSITION_CLASS );
           if (ag.dom.description) {
