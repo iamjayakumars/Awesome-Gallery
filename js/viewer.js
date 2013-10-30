@@ -16,13 +16,13 @@ var photoIndex, delay, photos, touchStartX,
       Switcher = {};
     
     Switcher.next = function () {
-      flipPhoto(function (index) {
+      flipPhoto(function ( index ) {
         return (++index) % photos.length;
       });
     };
 
     Switcher.prev = function () {
-      flipPhoto(function (index) {
+      flipPhoto(function ( index ) {
         return (--index) === -1 ? photos.length - 1 : index;
       });
     };
@@ -159,12 +159,10 @@ AG.init = function ( options ) {
     ag.dom.description = $( options.$description );
   }
 
-  delay = options.delay ?
-    options.delay :
-    (function () {
-      var transitionDuration = getComputedStyle( ag.dom.image ).transitionDuration;
-      return parseFloat( transitionDuration.substring( 0, transitionDuration.length - 1 ) ) * 1000;
-    })();
+  delay = (function () {
+    var transitionDuration = getComputedStyle( ag.dom.image ).transitionDuration;
+    return parseFloat( transitionDuration.substring( 0, transitionDuration.length - 1 ) ) * 1000;
+  })();
 
   ag.dom.image.addEventListener( 'click', Switcher.next );
   document.addEventListener( 'keydown', handleKeyDown );
