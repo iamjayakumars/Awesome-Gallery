@@ -82,13 +82,14 @@ var photoIndex, delay, photos, touchStartX,
       image: null,
       description: null,
       images: null,
+      gallery: null,
       galleryActivated: true
     }
   };
 
-function _activateGallery( gallery ) {
+function _activateGallery() {
   document.documentElement.addEventListener( 'click', function ( event ) {
-    ag.dom.galleryActivated = (event.target === gallery);
+    ag.dom.galleryActivated = (event.target === ag.dom.gallery);
   });
 }
 
@@ -116,7 +117,9 @@ function handleTouchEnd( event ) {
 }
 
 function registerButtonClick( action, selector ) {
-  var element = (selector ? $( selector ) : document.createElement( 'a' ));
+  var element = (selector ?
+    $( selector ) :
+    (ag.dom.gallery ? gallery.appendChild( document.createElement( 'a' ) ) : null));
   element.addEventListener( 'click', Switcher[action] );
   return element;
 }
@@ -136,7 +139,25 @@ function selectImage( image ) {
 window.AG = {};
 
 AG.init = function ( options ) {
+  options.autoSlideshow ? Switcher.slideshow() : undefined;
+  
+  if (options.$gallery) {
+    ag.dom.gallery = $( options.$gallery );
+    _activateGallery(;
+    ag.dom.galleryActivated = false;
+  }
+  
+  ag.dom.prev = registerButtonClick( 'prev', options.$prev );
+  ag.dom.next = registerButtonClick( 'next', options.$next );
+  ag.dom.slideshowStart = registerButtonClick( 'slideshow', options.$slideshow );
+  ag.dom.slideshowEnd = registerButtonClick( 'stopslideshow', options.$stopSlideshow );
+  
   ag.dom.image = $( options.$image );
+  ag.dom.image.addEventListener( 'click', Switcher.next );
+  document.addEventListener( 'keydown', handleKeyDown );
+  ag.dom.image.addEventListener( 'touchstart', handleTouchStart );
+  ag.dom.image.addEventListener( 'touchend', handleTouchEnd );
+  
   if (options.$$images) {
     ag.dom.images = photos = document.querySelectorAll( options.$$images );
     for (photoIndex = 0; photoIndex < photos.length; photoIndex++) {
@@ -149,6 +170,7 @@ AG.init = function ( options ) {
     photoIndex = 0;
   } else {
     ag.photos = photos = options.photos;
+    
   }
   
   selectImage( photos[0] );
@@ -163,28 +185,6 @@ AG.init = function ( options ) {
     var transitionDuration = getComputedStyle( ag.dom.image ).transitionDuration;
     return parseFloat( transitionDuration.substring( 0, transitionDuration.length - 1 ) ) * 1000;
   })();
-
-  ag.dom.image.addEventListener( 'click', Switcher.next );
-  document.addEventListener( 'keydown', handleKeyDown );
-  ag.dom.image.addEventListener( 'touchstart', handleTouchStart );
-  ag.dom.image.addEventListener( 'touchend', handleTouchEnd );
-  ag.dom.prev = registerButtonClick( 'prev', options.$prev );
-  ag.dom.next = registerButtonClick( 'next', options.$next );
-  ag.dom.slideshowStart = registerButtonClick( 'slideshow', options.$slideshow );
-  ag.dom.slideshowEnd = registerButtonClick( 'stopslideshow', options.$stopSlideshow );
-  
-  if (options.$gallery) {
-    _activateGallery( $( options.$gallery ) );
-    ag.dom.galleryActivated = false;
-  }
-  
-  if (options.quickSetup) {
-    Switcher.slideshow();
-    ag.dom.prev = registerButtonClick( 'prev' );
-    ag.dom.next = registerButtonClick( 'next' );
-    ag.dom.slideshowStart = registerButtonClick( 'slideshow' );
-    ag.dom.slideshowEnd = registerButtonClick( 'stopslideshow' );
-  }
   
   return AG;
 };
