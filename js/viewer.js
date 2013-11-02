@@ -45,18 +45,6 @@ var photoIndex, delay, photos, touchStartX,
       ag.dom.image.classList.remove( TRANSITION_CLASS );
       setTimeout(function() {
         ag.dom.image.src = photos[photoIndex].bigsrc ? photos[photoIndex].bigsrc : photos[photoIndex].src;
-        ag.dom.image.onload = function () {
-          ag.dom.image.classList.add( TRANSITION_CLASS );
-          if (ag.dom.description) {
-            ag.dom.description.textContent = photos[ photoSwitcher.getPhotoIndex() ].alt;
-          }
-        };
-        
-        //Work-around: WebKit and Blink do not display <img> alt text.
-        ag.dom.image.onerror = function () {
-          ag.dom.description.textContent = (/WebKit/.test( navigator.userAgent ) ?
-                ag.dom.description.textContent : '') + ' Unable to fetch image!';
-        };
       }, delay );
     }
     
@@ -157,6 +145,19 @@ AG.init = function ( options ) {
   document.addEventListener( 'keydown', handleKeyDown );
   ag.dom.image.addEventListener( 'touchstart', handleTouchStart );
   ag.dom.image.addEventListener( 'touchend', handleTouchEnd );
+  
+  ag.dom.image.onload = function () {
+    ag.dom.image.classList.add( TRANSITION_CLASS );
+    if (ag.dom.description) {
+      ag.dom.description.textContent = photos[ photoSwitcher.getPhotoIndex() ].alt;
+    }
+  };
+  
+  //Work-around: WebKit and Blink do not display <img> alt text.
+  ag.dom.image.onerror = function () {
+    ag.dom.description.textContent = (/WebKit/.test( navigator.userAgent ) ?
+          ag.dom.description.textContent : '') + ' Unable to fetch image!';
+  };
   
   if (options.$$images) {
     ag.dom.images = photos = document.querySelectorAll( options.$$images );
