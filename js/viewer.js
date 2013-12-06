@@ -117,7 +117,7 @@ function registerButtonClick( action, selector ) {
   var element = (selector ?
         $( selector ) :
         (ag.dom.gallery ? ag.dom.gallery.appendChild( document.createElement( 'a' ) ) : undefined));
-  element ? element.addEventListener( CLICK_EVENT, Switcher[action] ) : undefined;console.log(action)
+  element ? element.addEventListener( CLICK_EVENT, Switcher[action] ) : undefined;
   return element;
 }
 
@@ -138,6 +138,9 @@ function registerImagesClick() {
 }
 
 AG.init = function ( options ) {
+  var prev = ag.dom.prev = registerButtonClick( 'prev', options.$prev ),
+    next = ag.dom.next = registerButtonClick( 'next', options.$next );
+  
   options.autoSlideshow ? Switcher.slideshow() : undefined;
 
   if (options.$gallery) {
@@ -146,13 +149,11 @@ AG.init = function ( options ) {
     ag.dom.galleryActivated = false;
   }
   
-  ag.dom.prev = registerButtonClick( 'prev', options.$prev );
-  ag.dom.prev.classList.add( 'galleryNavButton' );
-  ag.dom.prev.textContent = '<';
+  prev.classList.add( 'galleryNavButton' );
+  prev.textContent = '<';
   
-  ag.dom.next = registerButtonClick( 'next', options.$next );
-  ag.dom.next.classList.add( 'galleryNavButton' );
-  ag.dom.next.textContent = '>';
+  next.classList.add( 'galleryNavButton' );
+  next.textContent = '>';
   
   ag.dom.slideshowStart = registerButtonClick( 'slideshow', options.$slideshow );
   ag.dom.slideshowStart.textContent = 'play';
