@@ -6,8 +6,8 @@ AG.extend(function ( $ ) {
       photosLength = $.dom.images ? $.dom.images.length : $.photos.length;
       
       keyCode === 0 ?
-        $.Switcher.goto( photosLength - 1 ) :
-        $.Switcher.goto( keyCode - 1 );
+        $.Switcher.go( photosLength - 1 ) :
+        $.Switcher.go( keyCode - 1 );
       
       event.keyCode === 33 ?
         $.Switcher.prev() :
