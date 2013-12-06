@@ -3,31 +3,34 @@
 * @version 0.5
 */
 
-(function () {
+var AG = {};
+
+(function ( document, undefined ) {
 
 'use strict';
 
-var TRANSITION_CLASS = 'view';
+var TRANSITION_CLASS = 'view',
+  CLICK_EVENT = 'click';
 
-var photoIndex, delay, photos, touchStartX,
-  
+var photoIndex, delay, photos, touchStartX, image,
+
   Switcher = (function () {
     var interval,
-      Switcher = {};
+    Switcher = {};
     
     Switcher.next = function () {
       flipPhoto(function ( index ) {
         return (++index) % photos.length;
       });
     };
-
+    
     Switcher.prev = function () {
       flipPhoto(function ( index ) {
         return (--index) === -1 ? photos.length - 1 : index;
       });
     };
-
-    Switcher.goto = function ( index ) {
+    
+    Switcher.go = function ( index ) {
       selectImage( photos[index] );
       photoIndex = index;
       setTimeout( changePhoto, delay );
@@ -40,11 +43,17 @@ var photoIndex, delay, photos, touchStartX,
     Switcher.stopSlideshow = function () {
       clearInterval( interval );
     };
-
+    
     function changePhoto() {
-      ag.dom.image.classList.remove( TRANSITION_CLASS );
-      setTimeout(function() {
-        ag.dom.image.src = photos[photoIndex].bigsrc ? photos[photoIndex].bigsrc : photos[photoIndex].src;
+      image.classList.remove( TRANSITION_CLASS );
+      setTimeout(function () {
+        if (photos[photoIndex].getAttribute && photos[photoIndex].getAttribute( 'bigsrc' )) {
+          image.src = photos[photoIndex].getAttribute( 'bigsrc' );
+        } else if (photos[photoIndex].bigsrc) {
+          image.src = photos[photoIndex].bigsrc;
+        } else {
+          image.src = photos[photoIndex].src;
+        }
       }, delay );
     }
     
@@ -65,8 +74,8 @@ var photoIndex, delay, photos, touchStartX,
     dom: {
       prev: null,
       next: null,
-      slideshowStart: null,
-      slideshowEnd: null,
+      slideshow: null,
+      stopSlideshow: null,
       image: null,
       description: null,
       images: null,
@@ -74,7 +83,7 @@ var photoIndex, delay, photos, touchStartX,
       galleryActivated: true
     }
   };
-
+  
 function _activateGallery() {
   document.documentElement.addEventListener( 'click', function ( event ) {
     ag.dom.galleryActivated = (event.target === ag.dom.gallery);
@@ -106,9 +115,9 @@ function handleTouchEnd( event ) {
 
 function registerButtonClick( action, selector ) {
   var element = (selector ?
-    $( selector ) :
-    (ag.dom.gallery ? gallery.appendChild( document.createElement( 'a' ) ) : null));
-  element.addEventListener( 'click', Switcher[action] );
+        $( selector ) :
+        (ag.dom.gallery ? ag.dom.gallery.appendChild( document.createElement( 'a' ) ) : undefined));
+  element ? element.addEventListener( CLICK_EVENT, Switcher[action] ) : undefined;console.log(action)
   return element;
 }
 
@@ -124,37 +133,47 @@ function selectImage( image ) {
   }
 }
 
-window.AG = {};
+function registerImagesClick() {
+
+}
 
 AG.init = function ( options ) {
   options.autoSlideshow ? Switcher.slideshow() : undefined;
-  
+
   if (options.$gallery) {
     ag.dom.gallery = $( options.$gallery );
-    _activateGallery(;
+    _activateGallery();
     ag.dom.galleryActivated = false;
   }
   
   ag.dom.prev = registerButtonClick( 'prev', options.$prev );
+  ag.dom.prev.classList.add( 'galleryNavButton' );
+  ag.dom.prev.textContent = '<';
+  
   ag.dom.next = registerButtonClick( 'next', options.$next );
+  ag.dom.next.classList.add( 'galleryNavButton' );
+  ag.dom.next.textContent = '>';
+  
   ag.dom.slideshowStart = registerButtonClick( 'slideshow', options.$slideshow );
-  ag.dom.slideshowEnd = registerButtonClick( 'stopslideshow', options.$stopSlideshow );
+  ag.dom.slideshowStart.textContent = 'play';
+  ag.dom.slideshowEnd = registerButtonClick( 'stopSlideshow', options.$stopSlideshow );
+  ag.dom.slideshowEnd.textContent = 'pause';
   
-  ag.dom.image = $( options.$image );
-  ag.dom.image.addEventListener( 'click', Switcher.next );
+  image = ag.dom.image = $( options.$image );
+  image.addEventListener( CLICK_EVENT, Switcher.next );
   document.addEventListener( 'keydown', handleKeyDown );
-  ag.dom.image.addEventListener( 'touchstart', handleTouchStart );
-  ag.dom.image.addEventListener( 'touchend', handleTouchEnd );
+  ag.dom.gallery.addEventListener( 'touchstart', handleTouchStart );
+  ag.dom.gallery.addEventListener( 'touchend', handleTouchEnd );
   
-  ag.dom.image.onload = function () {
-    ag.dom.image.classList.add( TRANSITION_CLASS );
-    if (ag.dom.description) {
-      ag.dom.description.textContent = photos[ photoSwitcher.getPhotoIndex() ].alt;
-    }
+  image.onload = function () {
+    image.classList.add( TRANSITION_CLASS );
+    ag.dom.description ?
+          ag.dom.description.textContent = photos[photoIndex].alt :
+          undefined;
   };
   
   //Work-around: WebKit and Blink do not display <img> alt text.
-  ag.dom.image.onerror = function () {
+  image.onerror = function () {
     ag.dom.description.textContent = (/WebKit/.test( navigator.userAgent ) ?
           ag.dom.description.textContent : '') + ' Unable to fetch image!';
   };
@@ -163,27 +182,28 @@ AG.init = function ( options ) {
     ag.dom.images = photos = document.querySelectorAll( options.$$images );
     for (photoIndex = 0; photoIndex < photos.length; photoIndex++) {
       (function (i) {
-        photos[photoIndex].addEventListener( 'click', function () {
-          Switcher.goto( i );
+        photos[photoIndex].addEventListener( CLICK_EVENT, function () {
+          Switcher.go( i );
         });
       })( photoIndex );
     }
     photoIndex = 0;
   } else {
     ag.photos = photos = options.photos;
-    
+    photos.forEach(function ( photo ) {
+      var image = document.createElement( 'img' );
+      image.src = photo.src;
+      image.alt = photo.alt;
+      ag.dom.imagesContainer.appendChild( image );
+    });
   }
   
-  selectImage( photos[0] );
-  ag.dom.image.src = photos[0].src;
-  ag.dom.image.classList.add( TRANSITION_CLASS );
+  Switcher.go( 0 );
   
-  if (options.$description) {
-    ag.dom.description = $( options.$description );
-  }
-
+  options.$description ? (ag.dom.description = $( options.$description )) : undefined;
+  
   delay = (function () {
-    var transitionDuration = getComputedStyle( ag.dom.image ).transitionDuration;
+    var transitionDuration = getComputedStyle( image ).transitionDuration;
     return parseFloat( transitionDuration.substring( 0, transitionDuration.length - 1 ) ) * 1000;
   })();
   
@@ -198,4 +218,4 @@ AG.extend = function ( callback, methodName ) {
   return AG;
 };
 
-})();
+})( document );
