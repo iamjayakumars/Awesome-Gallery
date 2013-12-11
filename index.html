@@ -5,31 +5,39 @@
 		<link href="style/layout.css" rel="stylesheet" />
 		<link href="style/photo_input_layout.css" rel="stylesheet" />
 
-		<link href="style/themes/fade.css" rel="stylesheet" />
+		<link id="themeStylesheet" href="" rel="stylesheet" />
 
 		<title>Awesome Gallery 0.4</title>
 	</head>
 	<body>
-		<div class="container">
+		<div class="container" id="gallery">
 			<noscript class="noscript">You're missing out. :-( <a href="http://enable-javascript.com">Enable JavaScript.</a></noscript>
-			<button id="themes_button" class="button">Themes</button>
-			<menu id="theme_choice"></menu>
+      <label for="themeSelector">
+        Themes: 
+      </label>
+      <select id="themeSelector">
+        <option value="fade">
+          Fade
+        </option>
+        <option value="rotate2D">
+          Rotate 2D
+        </option>
+        <option value="rotate3D">
+          Rotate 3D
+        </option>
+        <option value="shrink">
+          Shrink
+        </option>
+        <option value="sway">
+          Sway
+        </option>
+      </select>
 
 			<input accept="image/*" id="photo_input" type="file" multiple="multiple" />
 			<div id="input_mask_container">
 				<button id="input_mask" class="button">Add photo(s)</button>
 				<div id="image_input_opt_container"></div>
 			</div>
-
-			<section id="webcam_container">
-				<button id="capture_button" class="button">Capture</button>
-				<br />
-				<video id="preview">&ltvideo&gt is not supported by your browser.</video>
-			</section>
-
-			<section id="photo_previewer">
-				<button id="confirm_button" class="button">Done</button>
-			</section>
 
 			<div class="photoStrip">
 				<img class="photo" src="https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-prn1/524265_442728492500806_1762015287_n.jpg" />
@@ -43,23 +51,15 @@
 					<em class="printable" id="distance"></em>
 				</figcaption>
 			</figure>
-<!--
-			<section id="errors">
-				<div id="noGeolocation"></div>
-				<div id="noLocation"></div>
-				<div id="noLocalStorage"></div>
-				<div id="noPhotoInput"></div>
-				<div id="webcamError"></div>
-			</section>
--->
+
 			<button id="slideshow" class="button slideshow">Start slideshow</button>
 
 			<button id="prev" class="galleryNavButton"></button>
 			<button id="next" class="galleryNavButton"></button>
 		</div>
 
-		<script src="js/viewer.js"></script>
-		<!--<script src="js/theming.js"></script>-->
+		<script src="js/awesome-gallery.js"></script>
+		<script src="js/themes.js"></script>
     <script src="js/main.js"></script>
 	</body>
 </html>

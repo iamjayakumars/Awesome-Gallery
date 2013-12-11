@@ -47,9 +47,9 @@ var photoIndex, delay, photos, touchStartX, image,
     function changePhoto() {
       image.classList.remove( TRANSITION_CLASS );
       setTimeout(function () {
-        if (photos[photoIndex].getAttribute && photos[photoIndex].getAttribute( 'bigsrc' )) {
+        if ( photos[photoIndex].getAttribute && photos[photoIndex].getAttribute( 'bigsrc' ) ) {
           image.src = photos[photoIndex].getAttribute( 'bigsrc' );
-        } else if (photos[photoIndex].bigsrc) {
+        } else if ( photos[photoIndex].bigsrc ) {
           image.src = photos[photoIndex].bigsrc;
         } else {
           image.src = photos[photoIndex].src;
@@ -91,10 +91,10 @@ function _activateGallery() {
 }
 
 function handleKeyDown( event ) {
-  if (ag.dom.galleryActivated) {
-    if (event.keyCode === 37) {
+  if ( ag.dom.galleryActivated ) {
+    if ( event.keyCode === 37 ) {
       Switcher.prev();
-    } else if (event.keyCode === 39) {
+    } else if ( event.keyCode === 39 ) {
       Switcher.next();
     }
   }
@@ -105,18 +105,20 @@ function handleTouchStart( event ) {
 }
 
 function handleTouchEnd( event ) {
-  if (event.touches[0].pageX > touchStartX) {
+  if ( event.touches[0].pageX > touchStartX ) {
     Switcher.prev();
-  } else if (event.touches[0].pageX < touchStartX) {
+  } else if ( event.touches[0].pageX < touchStartX ) {
     Switcher.next();
   }
   event.preventDefault();
 }
 
-function registerButtonClick( action, selector ) {
-  var element = (selector ?
+function getButton( action, selector, text, className ) {
+  var element = selector ?
         $( selector ) :
-        (ag.dom.gallery ? ag.dom.gallery.appendChild( document.createElement( 'a' ) ) : undefined));
+        ag.dom.gallery.appendChild( document.createElement( 'a' ) );
+  element.textContent = text;
+  element.classList.add( className );
   element ? element.addEventListener( CLICK_EVENT, Switcher[action] ) : undefined;
   return element;
 }
@@ -127,10 +129,8 @@ function $( selector ) {
 
 function selectImage( image ) {
   var SELECTION_CLASS = 'selected'
-  if (image.classList) {
-    image.classList.add( SELECTION_CLASS );
-    image !== photos[photoIndex] ? photos[photoIndex].classList.remove( SELECTION_CLASS ) : undefined;
-  }
+  image.classList.add( SELECTION_CLASS );
+  image !== photos[photoIndex] ? photos[photoIndex].classList.remove( SELECTION_CLASS ) : undefined;
 }
 
 function registerImagesClick() {
@@ -138,27 +138,18 @@ function registerImagesClick() {
 }
 
 AG.init = function ( options ) {
-  var prev = ag.dom.prev = registerButtonClick( 'prev', options.$prev ),
-    next = ag.dom.next = registerButtonClick( 'next', options.$next );
-  
-  options.autoSlideshow ? Switcher.slideshow() : undefined;
-
-  if (options.$gallery) {
+  if ( options.$gallery ) {
     ag.dom.gallery = $( options.$gallery );
     _activateGallery();
     ag.dom.galleryActivated = false;
   }
   
-  prev.classList.add( 'galleryNavButton' );
-  prev.textContent = '<';
+  options.autoSlideshow ? Switcher.slideshow() : undefined;
   
-  next.classList.add( 'galleryNavButton' );
-  next.textContent = '>';
-  
-  ag.dom.slideshowStart = registerButtonClick( 'slideshow', options.$slideshow );
-  ag.dom.slideshowStart.textContent = 'play';
-  ag.dom.slideshowEnd = registerButtonClick( 'stopSlideshow', options.$stopSlideshow );
-  ag.dom.slideshowEnd.textContent = 'pause';
+  ag.dom.prev = getButton( 'prev', options.$prev, '<', 'galleryNavButton' );
+  ag.dom.next = getButton( 'next', options.$next, '>', 'galleryNavButton' );
+  ag.dom.slideshowStart = getButton( 'slideshow', options.$slideshow, 'play', 'galleryNavButton' );
+  ag.dom.slideshowEnd = getButton( 'stopSlideshow', options.$stopSlideshow, 'pause', 'galleryNavButton' );
   
   image = ag.dom.image = $( options.$image );
   image.addEventListener( CLICK_EVENT, Switcher.next );
@@ -179,7 +170,7 @@ AG.init = function ( options ) {
           ag.dom.description.textContent : '') + ' Unable to fetch image!';
   };
   
-  if (options.$$images) {
+  if ( options.$$images ) {
     ag.dom.images = photos = document.querySelectorAll( options.$$images );
     for (photoIndex = 0; photoIndex < photos.length; photoIndex++) {
       (function (i) {
