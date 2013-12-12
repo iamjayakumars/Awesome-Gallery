@@ -12,8 +12,10 @@ var AG = {};
 var TRANSITION_CLASS = 'view',
   CLICK_EVENT = 'click';
 
-var photoIndex, delay, photos, touchStartX, image,
-
+var delay, photos, touchStartX, image,
+  
+  photoIndex = 0,
+  
   Switcher = (function () {
     var interval,
     Switcher = {};
@@ -114,12 +116,15 @@ function handleTouchEnd( event ) {
 }
 
 function getButton( action, selector, text, className ) {
-  var element = selector ?
-        $( selector ) :
-        ag.dom.gallery.appendChild( document.createElement( 'a' ) );
-  element.textContent = text;
-  element.classList.add( className );
-  element ? element.addEventListener( CLICK_EVENT, Switcher[action] ) : undefined;
+  var element;
+  if ( selector ) {
+     element = $( selector );
+  } else {
+     element = ag.dom.gallery.appendChild( document.createElement( 'a' ) );
+     element.textContent = text;
+     element.classList.add( className );
+  }
+  element.addEventListener( CLICK_EVENT, Switcher[action] );
   return element;
 }
 
@@ -170,25 +175,32 @@ AG.init = function ( options ) {
           ag.dom.description.textContent : '') + ' Unable to fetch image!';
   };
   
-  if ( options.$$images ) {
-    ag.dom.images = photos = document.querySelectorAll( options.$$images );
-    for (photoIndex = 0; photoIndex < photos.length; photoIndex++) {
-      (function (i) {
-        photos[photoIndex].addEventListener( CLICK_EVENT, function () {
-          Switcher.go( i );
-        });
-      })( photoIndex );
-    }
-    photoIndex = 0;
-  } else {
-    ag.photos = photos = options.photos;
-    photos.forEach(function ( photo ) {
+  if ( options.photos ) {
+    options.photos.forEach(function ( photo ) {
       var image = document.createElement( 'img' );
       image.src = photo.src;
       image.alt = photo.alt;
       ag.dom.imagesContainer.appendChild( image );
     });
+    ag.dom.images = photos = ag.dom.imagesContainer.children;
+  } else {
+    ag.dom.images = photos = document.querySelectorAll( options.$$images );
+    /*for ( var property in Array.prototype ) {
+      if ( !photos[property] && typeof Array.prototype[property] === 'function' ) {
+        (function () {
+          photos[property] = function ( args ) {
+            Array.prototype[property].call( photos, args );
+          };
+        })( property );
+      }
+    }*/
   }
+  
+  Array.prototype.forEach.call( photos, function ( photo, index ) {
+    photos[index].addEventListener( CLICK_EVENT, function () {
+      Switcher.go( index );
+    });
+  });
   
   Switcher.go( 0 );
   
