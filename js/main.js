@@ -1,7 +1,8 @@
 AG.init({
   $image: '#mainPhoto',
   $$images: '.photo',
-  $gallery: '#gallery'
+  $gallery: '#gallery',
+  $description: '#description'
 });
 
 selectTheme( 'themeSelector', 'themeStylesheet', 'style/themes/' );

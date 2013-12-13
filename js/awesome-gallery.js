@@ -21,20 +21,21 @@ var delay, photos, touchStartX, image,
     Switcher = {};
     
     Switcher.next = function () {
-      flipPhoto(function ( index ) {
-        return (++index) % photos.length;
+      flipPhoto(function () {
+        photoIndex = (++photoIndex) % photos.length;
       });
     };
     
     Switcher.prev = function () {
-      flipPhoto(function ( index ) {
-        return (--index) === -1 ? photos.length - 1 : index;
+      flipPhoto(function () {
+        photoIndex = (--photoIndex) === -1 ? photos.length - 1 : photoIndex;
       });
     };
     
     Switcher.go = function ( index ) {
-      selectImage( photos[index] );
+      var prevIndex = photoIndex;
       photoIndex = index;
+      selectImage( prevIndex );
       setTimeout( changePhoto, delay );
     };
     
@@ -60,10 +61,9 @@ var delay, photos, touchStartX, image,
     }
     
     function flipPhoto( callback ) {
-      var index = photoIndex;
-      index = callback( index );
-      selectImage( photos[index] );
-      photoIndex = index;
+      var prevIndex = photoIndex;
+      callback();
+      selectImage( prevIndex );
       changePhoto();
     }
     
@@ -138,10 +138,10 @@ function $( selector ) {
   return document.querySelector( selector );
 }
 
-function selectImage( image ) {
-  var SELECTION_CLASS = 'selected'
-  photos[photoIndex].classList.remove( SELECTION_CLASS );
-  image.classList.add( SELECTION_CLASS );
+function selectImage( prevIndex ) {
+  var SELECTION_CLASS = 'selected'; console.log(prevIndex)
+  prevIndex !== undefined && photos[prevIndex].classList.remove( SELECTION_CLASS );
+  photos[photoIndex].classList.add( SELECTION_CLASS );
 }
 
 function registerImagesClick() {
@@ -220,7 +220,8 @@ AG.init = function ( options ) {
 
 AG.extend = function ( callback, methodName ) {
   methodName ? (AG[methodName] = function () {
-    callback.apply( AG, [ag].concat( Array.prototype.splice.call( arguments, 0, arguments.length + 1 ) ) );
+    callback.apply( AG, [ag].concat( Array.prototype.splice.call( arguments, 0, arguments.length ) ) );
+    return AG;
   }) : callback( ag );
   
   return AG;
