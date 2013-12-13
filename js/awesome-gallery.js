@@ -5,7 +5,7 @@
 
 var AG = {};
 
-(function ( document, undefined ) {
+(function ( document ) {
 
 'use strict';
 
@@ -88,7 +88,13 @@ var delay, photos, touchStartX, image,
   
 function _activateGallery() {
   document.documentElement.addEventListener( 'click', function ( event ) {
-    ag.dom.galleryActivated = (event.target === ag.dom.gallery);
+    var element = event.target,
+      withinGallery = false;
+    do {
+      withinGallery = (element === ag.dom.gallery);
+      element = element.parentNode;
+    } while ( !withinGallery && element !== this );
+    ag.dom.galleryActivated = withinGallery;
   });
 }
 
@@ -115,14 +121,14 @@ function handleTouchEnd( event ) {
   event.preventDefault();
 }
 
-function getButton( action, selector, text, className ) {
+function getButton( action, selector, text ) {
   var element;
   if ( selector ) {
      element = $( selector );
   } else {
      element = ag.dom.gallery.appendChild( document.createElement( 'a' ) );
      element.textContent = text;
-     element.classList.add( className );
+     element.classList.add( 'galleryNavButton' );
   }
   element.addEventListener( CLICK_EVENT, Switcher[action] );
   return element;
@@ -134,8 +140,8 @@ function $( selector ) {
 
 function selectImage( image ) {
   var SELECTION_CLASS = 'selected'
+  photos[photoIndex].classList.remove( SELECTION_CLASS );
   image.classList.add( SELECTION_CLASS );
-  image !== photos[photoIndex] ? photos[photoIndex].classList.remove( SELECTION_CLASS ) : undefined;
 }
 
 function registerImagesClick() {
@@ -149,12 +155,12 @@ AG.init = function ( options ) {
     ag.dom.galleryActivated = false;
   }
   
-  options.autoSlideshow ? Switcher.slideshow() : undefined;
+  options.autoSlideshow && Switcher.slideshow();
   
-  ag.dom.prev = getButton( 'prev', options.$prev, '<', 'galleryNavButton' );
-  ag.dom.next = getButton( 'next', options.$next, '>', 'galleryNavButton' );
-  ag.dom.slideshowStart = getButton( 'slideshow', options.$slideshow, 'play', 'galleryNavButton' );
-  ag.dom.slideshowEnd = getButton( 'stopSlideshow', options.$stopSlideshow, 'pause', 'galleryNavButton' );
+  ag.dom.prev = getButton( 'prev', options.$prev, '<'  );
+  ag.dom.next = getButton( 'next', options.$next, '>' );
+  ag.dom.slideshowStart = getButton( 'slideshow', options.$slideshow, 'play' );
+  ag.dom.slideshowEnd = getButton( 'stopSlideshow', options.$stopSlideshow, 'pause' );
   
   image = ag.dom.image = $( options.$image );
   image.addEventListener( CLICK_EVENT, Switcher.next );
@@ -164,9 +170,7 @@ AG.init = function ( options ) {
   
   image.onload = function () {
     image.classList.add( TRANSITION_CLASS );
-    ag.dom.description ?
-          ag.dom.description.textContent = photos[photoIndex].alt :
-          undefined;
+    ag.dom.description && (ag.dom.description.textContent = photos[photoIndex].alt);
   };
   
   //Work-around: WebKit and Blink do not display <img> alt text.
@@ -204,7 +208,7 @@ AG.init = function ( options ) {
   
   Switcher.go( 0 );
   
-  options.$description ? (ag.dom.description = $( options.$description )) : undefined;
+  options.$description && (ag.dom.description = $( options.$description ));
   
   delay = (function () {
     var transitionDuration = getComputedStyle( image ).transitionDuration;
@@ -216,7 +220,7 @@ AG.init = function ( options ) {
 
 AG.extend = function ( callback, methodName ) {
   methodName ? (AG[methodName] = function () {
-    callback( ag );
+    callback.apply( AG, [ag].concat( Array.prototype.splice.call( arguments, 0, arguments.length + 1 ) ) );
   }) : callback( ag );
   
   return AG;
