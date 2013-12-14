@@ -20,7 +20,7 @@ body {
 
 .galleryNavButton {
     position: relative;
-    bottom: 620px;
+    top: 220px;
     margin: 20px;
     display: inline-block;
     width: 50px;

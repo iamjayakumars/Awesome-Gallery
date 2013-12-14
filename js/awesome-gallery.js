@@ -12,7 +12,7 @@ var AG = {};
 var TRANSITION_CLASS = 'view',
   CLICK_EVENT = 'click';
 
-var delay, photos, touchStartX, image,
+var delay, photos, touchStartX, image, gallery,
   
   photoIndex = 0,
   
@@ -91,7 +91,7 @@ function _activateGallery() {
     var element = event.target,
       withinGallery = false;
     do {
-      withinGallery = (element === ag.dom.gallery);
+      withinGallery = (element === gallery);
       element = element.parentNode;
     } while ( !withinGallery && element !== this );
     ag.dom.galleryActivated = withinGallery;
@@ -126,7 +126,7 @@ function getButton( action, selector, text ) {
   if ( selector ) {
      element = $( selector );
   } else {
-     element = ag.dom.gallery.appendChild( document.createElement( 'a' ) );
+     element = gallery.insertBefore( document.createElement( 'a' ), gallery.firstChild );
      element.textContent = text;
      element.classList.add( 'galleryNavButton' );
   }
@@ -139,7 +139,7 @@ function $( selector ) {
 }
 
 function selectImage( prevIndex ) {
-  var SELECTION_CLASS = 'selected'; console.log(prevIndex)
+  var SELECTION_CLASS = 'selected';
   prevIndex !== undefined && photos[prevIndex].classList.remove( SELECTION_CLASS );
   photos[photoIndex].classList.add( SELECTION_CLASS );
 }
@@ -150,23 +150,24 @@ function registerImagesClick() {
 
 AG.init = function ( options ) {
   if ( options.$gallery ) {
-    ag.dom.gallery = $( options.$gallery );
+    gallery = ag.dom.gallery = $( options.$gallery );
     _activateGallery();
     ag.dom.galleryActivated = false;
   }
   
   options.autoSlideshow && Switcher.slideshow();
   
-  ag.dom.prev = getButton( 'prev', options.$prev, '<'  );
-  ag.dom.next = getButton( 'next', options.$next, '>' );
-  ag.dom.slideshowStart = getButton( 'slideshow', options.$slideshow, 'play' );
-  ag.dom.slideshowEnd = getButton( 'stopSlideshow', options.$stopSlideshow, 'pause' );
-  
   image = ag.dom.image = $( options.$image );
   image.addEventListener( CLICK_EVENT, Switcher.next );
   document.addEventListener( 'keydown', handleKeyDown );
-  ag.dom.gallery.addEventListener( 'touchstart', handleTouchStart );
-  ag.dom.gallery.addEventListener( 'touchend', handleTouchEnd );
+  gallery.addEventListener( 'touchstart', handleTouchStart );
+  gallery.addEventListener( 'touchend', handleTouchEnd );
+  
+  //Will appear in reverse order!
+  ag.dom.slideshowEnd = getButton( 'stopSlideshow', options.$stopSlideshow, 'pause' );
+  ag.dom.slideshowStart = getButton( 'slideshow', options.$slideshow, 'play' );
+  ag.dom.next = getButton( 'next', options.$next, '>' );
+  ag.dom.prev = getButton( 'prev', options.$prev, '<'  );
   
   image.onload = function () {
     image.classList.add( TRANSITION_CLASS );
