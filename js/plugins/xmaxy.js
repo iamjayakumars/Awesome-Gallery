@@ -7,20 +7,11 @@ carol.loop = true;
 carol.play();
 
 function lightImages( images, redEven ) {
+  var RED = 'rgb(255, 0, 0)',
+    GREEN = 'rgb(0, 255, 0)';
   for (var i = 0; i < images.length; i++) {
-    if (redEven) {
-      if (i % 2 === 0) {
-        images[i].style.borderColor = 'rgb(255, 0, 0)';
-      } else {
-        images[i].style.borderColor = 'rgb(0, 255, 0)';
-      }
-    } else {
-      if (i % 2 === 0) {
-        images[i].style.borderColor = 'rgb(0, 255, 0)';
-      } else {
-        images[i].style.borderColor = 'rgb(255, 0, 0)';
-      }
-    }
+    images[i].style.borderColor = redEven ? ( i % 2 === 0 ? RED : GREEN ) :
+          ( i % 2 === 0 ? GREEN : RED );
   }
   return !redEven;
 }

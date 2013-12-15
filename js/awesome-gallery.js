@@ -5,12 +5,13 @@
 
 var AG = {};
 
-(function ( document ) {
+(function ( document, ArrayProto, undefined ) {
 
 'use strict';
 
 var TRANSITION_CLASS = 'view',
-  CLICK_EVENT = 'click';
+  CLICK_EVENT = 'click',
+  BIGSRC_ATTR = 'bigsrc';
 
 var delay, photos, touchStartX, image, gallery,
   
@@ -22,13 +23,13 @@ var delay, photos, touchStartX, image, gallery,
     
     Switcher.next = function () {
       flipPhoto(function () {
-        photoIndex = (++photoIndex) % photos.length;
+        photoIndex = ( ++photoIndex ) % photos.length;
       });
     };
     
     Switcher.prev = function () {
       flipPhoto(function () {
-        photoIndex = (--photoIndex) === -1 ? photos.length - 1 : photoIndex;
+        photoIndex = ( --photoIndex ) === -1 ? photos.length - 1 : photoIndex;
       });
     };
     
@@ -50,13 +51,9 @@ var delay, photos, touchStartX, image, gallery,
     function changePhoto() {
       image.classList.remove( TRANSITION_CLASS );
       setTimeout(function () {
-        if ( photos[photoIndex].getAttribute && photos[photoIndex].getAttribute( 'bigsrc' ) ) {
-          image.src = photos[photoIndex].getAttribute( 'bigsrc' );
-        } else if ( photos[photoIndex].bigsrc ) {
-          image.src = photos[photoIndex].bigsrc;
-        } else {
-          image.src = photos[photoIndex].src;
-        }
+        photos[photoIndex].getAttribute( BIGSRC_ATTR ) ?
+              image.src = photos[photoIndex].getAttribute( BIGSRC_ATTR ) :
+              image.src = photos[photoIndex].src;
       }, delay );
     }
     
@@ -72,7 +69,6 @@ var delay, photos, touchStartX, image, gallery,
   
   ag = {
     Switcher: Switcher,
-    photos: [],
     dom: {
       prev: null,
       next: null,
@@ -91,7 +87,7 @@ function _activateGallery() {
     var element = event.target,
       withinGallery = false;
     do {
-      withinGallery = (element === gallery);
+      withinGallery = ( element === gallery );
       element = element.parentNode;
     } while ( !withinGallery && element !== this );
     ag.dom.galleryActivated = withinGallery;
@@ -144,8 +140,8 @@ function selectImage( prevIndex ) {
   photos[photoIndex].classList.add( SELECTION_CLASS );
 }
 
-function registerImagesClick() {
-
+function extractFunctionArgs( args ) {
+  return ArrayProto.splice.call( args, 0, args.length );
 }
 
 AG.init = function ( options ) {
@@ -171,7 +167,7 @@ AG.init = function ( options ) {
   
   image.onload = function () {
     image.classList.add( TRANSITION_CLASS );
-    ag.dom.description && (ag.dom.description.textContent = photos[photoIndex].alt);
+    ag.dom.description && ( ag.dom.description.textContent = photos[photoIndex].alt );
   };
   
   //Work-around: WebKit and Blink do not display <img> alt text.
@@ -180,28 +176,28 @@ AG.init = function ( options ) {
           ag.dom.description.textContent : '') + ' Unable to fetch image!';
   };
   
-  if ( options.photos ) {
-    options.photos.forEach(function ( photo ) {
+  if ( options.images ) {
+    options.images.forEach(function ( photo ) {
       var image = document.createElement( 'img' );
       image.src = photo.src;
       image.alt = photo.alt;
+      photo.bigsrc && image.setAttribute( BIGSRC_ATTR, photo.bigsrc );
       ag.dom.imagesContainer.appendChild( image );
     });
     ag.dom.images = photos = ag.dom.imagesContainer.children;
   } else {
     ag.dom.images = photos = document.querySelectorAll( options.$$images );
-    /*for ( var property in Array.prototype ) {
-      if ( !photos[property] && typeof Array.prototype[property] === 'function' ) {
-        (function () {
-          photos[property] = function ( args ) {
-            Array.prototype[property].call( photos, args );
-          };
-        })( property );
-      }
-    }*/
   }
   
-  Array.prototype.forEach.call( photos, function ( photo, index ) {
+  Object.getOwnPropertyNames( ArrayProto ).forEach(function ( property ) {
+    if ( !photos[property] ) {
+      photos[property] = function () {
+        return ArrayProto[property].apply( photos, extractFunctionArgs( arguments ) );
+      };
+    }
+  });
+  
+  photos.forEach(function ( photo, index ) {
     photos[index].addEventListener( CLICK_EVENT, function () {
       Switcher.go( index );
     });
@@ -209,7 +205,7 @@ AG.init = function ( options ) {
   
   Switcher.go( 0 );
   
-  options.$description && (ag.dom.description = $( options.$description ));
+  options.$description && ( ag.dom.description = $( options.$description ) );
   
   delay = (function () {
     var transitionDuration = getComputedStyle( image ).transitionDuration;
@@ -221,11 +217,11 @@ AG.init = function ( options ) {
 
 AG.extend = function ( callback, methodName ) {
   methodName ? (AG[methodName] = function () {
-    callback.apply( AG, [ag].concat( Array.prototype.splice.call( arguments, 0, arguments.length ) ) );
+    callback.apply( AG, [ag].concat( extractFunctionArgs( arguments ) ) );
     return AG;
   }) : callback( ag );
   
   return AG;
 };
 
-})( document );
+})( document, [].__proto__ );

@@ -4,10 +4,10 @@ body {
     color: rgb(255, 255, 255);
 }
 
-#prev,
-#next {
-    position: inherit;
-    top: 48.5%;
+.caption {
+    position: relative;
+    top: 40px;
+    font-size: 22px;
 }
 
 .container {
@@ -32,9 +32,6 @@ body {
 .galleryNavButton:hover {
     background-color: rgb(0, 255, 255);
 }
-
-#prev { left: 1.5%; }
-#next { right: 1.5%; }
 
 .mainPhoto {
     position: relative;
