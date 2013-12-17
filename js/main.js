@@ -5,4 +5,6 @@ AG.init({
   $$images: '.photo',
   $gallery: '#gallery',
   $description: '#description'
+}).fullScreen({
+  $button: '#fullScreenButton'
 });

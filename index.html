@@ -1,17 +1,17 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<link href="style/layout.css" rel="stylesheet" />
-		<link href="style/photo_input_layout.css" rel="stylesheet" />
+  <head>
+    <meta charset="utf-8" />
+    <link href="style/layout.css" rel="stylesheet" />
+    <link href="style/photo_input_layout.css" rel="stylesheet" />
 
-		<link id="themeStylesheet" href="" rel="stylesheet" />
+    <link id="themeStylesheet" href="" rel="stylesheet" />
 
-		<title>Awesome Gallery</title>
-	</head>
-	<body>
-		<div class="container" id="gallery">
-			<noscript class="noscript">You're missing out. :-( <a href="http://enable-javascript.com">Enable JavaScript.</a></noscript>
+    <title>Awesome Gallery</title>
+  </head>
+  <body>
+    <div class="container" id="gallery">
+      <noscript class="noscript">You're missing out. :-( <a href="http://enable-javascript.com">Enable JavaScript.</a></noscript>
       <label for="themeSelector">
         Themes: 
       </label>
@@ -33,24 +33,28 @@
         </option>
       </select>
 
-			<div class="photoStrip">
-				<img class="photo" src="https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-prn1/524265_442728492500806_1762015287_n.jpg" alt="Pupu :3" />
-				<img class="photo" src="https://fbcdn-sphotos-b-a.akamaihd.net/hphotos-ak-frc3/1044733_3313993386247_679963066_n.jpg" alt="Firefox OS!" />
+      <div class="photoStrip">
+        <img class="photo" src="https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-prn1/524265_442728492500806_1762015287_n.jpg" alt="Pupu :3" />
+        <img class="photo" src="https://fbcdn-sphotos-b-a.akamaihd.net/hphotos-ak-frc3/1044733_3313993386247_679963066_n.jpg" alt="Firefox OS!" />
         <img class="photo" src="https://fbcdn-sphotos-e-a.akamaihd.net/hphotos-ak-prn2/1376593_3675979475673_374240229_n.jpg" alt="Why so cute, Foxkeh?" />
-			</div>
+      </div>
 
-			<figure id="photoFrame" class="photoFrame">
+      <a id="fullScreenButton" href="#">Fullscreen</a>
+
+      <figure id="photoFrame" class="photoFrame">
         <figcaption class="caption printable">
-					<span id="description"></span>
-					<span id="distance"></span>
-				</figcaption>
-				<img class="printable view mainPhoto" id="mainPhoto" />
-			</figure>
-		</div>
+          <span id="description"></span>
+          <span id="distance"></span>
+        </figcaption>
+        <img class="printable view mainPhoto" id="mainPhoto" />
+      </figure>
+    </div>
 
-		<script src="js/awesome-gallery.js"></script>
-		<script src="js/themes.js"></script>
+    <script src="js/awesome-gallery.js"></script>
+    <script src="js/plugins/fullscreen.js"></script>
+    <script src="js/themes.js"></script>
     <script src="js/main.js"></script>
     <script src="js/plugins/xmaxy.js"></script>
-	</body>
+    <script src="js/plugins/swift_keys.js"></script>
+  </body>
 </html>
