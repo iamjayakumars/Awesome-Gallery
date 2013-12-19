@@ -44,7 +44,7 @@ var delay, photos, touchStartX, image, gallery,
       interval = setInterval( Switcher.next, delay * 4 );
     };
     
-    Switcher.stopSlideshow = function () {
+    Switcher.stopSlideshow = function () {console.log(123)
       clearInterval( interval );
     };
     
@@ -75,7 +75,7 @@ var delay, photos, touchStartX, image, gallery,
       slideshow: null,
       stopSlideshow: null,
       image: null,
-      description: null,
+      desc: null,
       images: null,
       gallery: null,
       galleryActivated: true
@@ -167,13 +167,13 @@ AG.init = function ( options ) {
   
   image.onload = function () {
     image.classList.add( TRANSITION_CLASS );
-    ag.dom.description && ( ag.dom.description.textContent = photos[photoIndex].alt );
+    ag.dom.desc && ( ag.dom.desc.textContent = photos[photoIndex].alt );
   };
   
   //Work-around: WebKit and Blink do not display <img> alt text.
   image.onerror = function () {
-    ag.dom.description.textContent = (/WebKit/.test( navigator.userAgent ) ?
-          ag.dom.description.textContent : '') + ' Unable to fetch image!';
+    ag.dom.desc.textContent = (/WebKit/.test( navigator.userAgent ) ?
+          ag.dom.desc.textContent : '') + ' Unable to fetch image!';
   };
   
   if ( options.images ) {
@@ -205,7 +205,7 @@ AG.init = function ( options ) {
   
   Switcher.go( 0 );
   
-  options.$description && ( ag.dom.description = $( options.$description ) );
+  options.$desc && ( ag.dom.desc = $( options.$desc ) );
   
   delay = (function () {
     var transitionDuration = getComputedStyle( image ).transitionDuration;

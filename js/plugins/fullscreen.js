@@ -15,7 +15,7 @@ AG.extend(function ( $, options ) {
     fullScreen();
   });
   
-  document.documentElement.addEventListener( 'keydown', function () {
+  document.documentElement.addEventListener( 'keydown', function ( event ) {
     if ( $.dom.galleryActivated && event.keyCode === 113 ) {
       fullScreen();
     }
