@@ -41,10 +41,10 @@ var delay, photos, touchStartX, image, gallery,
     };
     
     Switcher.slideshow = function () {
-      interval = setInterval( Switcher.next, delay * 4 );
+      interval = setInterval( Switcher.next, delay * 4 );console.log(interval)
     };
     
-    Switcher.stopSlideshow = function () {console.log(123)
+    Switcher.stopSlideshow = function () {console.log(interval)
       clearInterval( interval );
     };
     
