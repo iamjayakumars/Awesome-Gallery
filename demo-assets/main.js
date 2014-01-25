@@ -1,4 +1,4 @@
-selectTheme( 'themeSelector', 'themeStylesheet', 'style/themes/' );
+selectTheme( 'themeSelector', 'themeStylesheet', 'themes/' );
 
 AG.init({
   $image: '#mainPhoto',
