@@ -8,7 +8,10 @@ exports.main = function () {
     height: 400,
     width: 600,
     contentURL: data.url( 'gallery/index.html' ),
-    contentScriptFile: data.url( 'gallery/main.js' )
+    contentScriptFile: [
+        data.url( 'gallery/awesome-gallery.js' ),
+        data.url( 'gallery/main.js' )
+      ]
   });
 
   pageMod.PageMod({

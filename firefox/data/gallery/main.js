@@ -1,3 +1,9 @@
 self.port.on( 'images', function ( images ) {
-  console.log( images.length );
+  AG.init({
+    $image: '#mainPhoto',
+    $imagesContainer: '#photoStrip',
+    images: images,
+    $gallery: '#gallery',
+    $desc: '#description'
+  });
 });

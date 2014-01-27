@@ -36,10 +36,6 @@
     transition: all ease-in 1s;
 }
 
-.noscript {
-    color: rgb(255, 0, 0);
-}
-
 .photo {
     float: left;
     height: 100%;

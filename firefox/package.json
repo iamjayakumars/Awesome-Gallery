@@ -1,9 +1,9 @@
 {
   "name": "awesome-gallery",
-  "fullName": "awesome-gallery",
+  "fullName": "Awesome Gallery",
   "id": "jid1-icH0xJJYB2eq3Q",
-  "description": "a basic add-on",
-  "author": "",
+  "description": "Transforms current page into a gallery at the click of button",
+  "author": "Daniel Desira",
   "license": "MPL 2.0",
   "version": "0.1"
 }
