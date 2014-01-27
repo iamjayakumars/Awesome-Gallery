@@ -27,7 +27,7 @@ exports.main = function () {
   widget.Widget({
     id: 'awesome-gallery',
     label: 'Load gallery from page',
-    contentURL: 'http://www.mozilla.org/favicon.ico',
+    contentURL: data.url( 'gallery/logo-small.png' ),
     panel: gallery
   });
 };
