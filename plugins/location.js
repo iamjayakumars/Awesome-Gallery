@@ -1,24 +1,28 @@
 (function ( document, navigator ) {
 
-  function calcDistance( x, y ) {
-    var dLat = rad( this.getLatitude() - location.getLatitude() ),
-      dLon = rad( this.getLongitude() - location.getLongitude() ),
+  function calcDistance( x1, y1, x2, y2 ) {
+    var dLat = rad( y1 - y2 ),
+      dLon = rad( x1 - x2 ),
 
       R = 6371,
 
       a = Math.pow( Math.sin( dLat/2 ), 2 ) +
-        ( Math.cos( rad( this.getLatitude() ) ) * Math.cos( rad( location.getLatitude()) ) *
-        Math.pow(Math.sin( dLon/2 ), 2) ),
+        ( Math.cos( rad( y1 ) ) * Math.cos( rad( y2 ) ) *
+        Math.pow( Math.sin( dLon/2 ), 2 ) ),
       c = 2 * Math.atan2( Math.sqrt( a ), Math.sqrt( 1-a ) );
 
     return R * c;
   }
 
-  AG.extend(function ( $ ) {
+  function rad( degrees ) {
+  	return degrees * ( Math.PI / degrees );
+  }
+
+  AG.extend(function ( $, options ) {
     if ( navigator.geolocation ) {
       navigator.geolocation.getCurrentPosition(function( position ) {
-        currentLocation.setLongitude( position.coords.longitude );
-        currentLocation.setLatitude( position.coords.latitude );
+        document.querySelector( options.$distance ).textContent = calcDistance( position.coords.longitude, position.coords.latitude,
+                            AG.location.longitude, AG.location.latitude );
       }, function( error ) {
       	switch( error.code ) {
           case error.UNKNOWN_ERROR:
@@ -33,10 +37,10 @@
           case error.TIMEOUT:
             errString = 'Timeout!';
         }
-        document.querySelector( '#noLocation' ).textContent = errString;
+        document.querySelector( options.$locationError ).textContent = errString;
       });
     } else {
-      document.querySelector( '#noGeolocation' ).textContent = 'Geolocation is not supported!';
+      document.querySelector( options.$locationError ).textContent = 'Geolocation is not supported!';
     }
   }, 'location' );
 

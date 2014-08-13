@@ -7,4 +7,7 @@ AG.init({
   $desc: '#description'
 }).fullScreen({
   $button: '#fullScreenButton'
+}).location({
+  $distance: '#distance',
+  $locationError: '#locationError'
 });
