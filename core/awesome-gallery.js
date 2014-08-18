@@ -144,6 +144,16 @@ var AG = {};
     return ArrayProto.splice.call( args, 0, args.length );
   }
 
+  function imageLoad() {
+    image.classList.add( TRANSITION_CLASS );
+    defaults.dom.desc && ( defaults.dom.desc.textContent = photos[photoIndex].alt );
+  }
+
+  function imageError() {
+    defaults.dom.desc.textContent = (/WebKit/.test( navigator.userAgent ) ?
+            defaults.dom.desc.textContent : '') + ' Unable to fetch image!';
+  }
+
   AG.init = function ( options ) {
     if ( options.$gallery ) {
       gallery = defaults.dom.gallery = $( options.$gallery );
@@ -164,16 +174,10 @@ var AG = {};
     defaults.dom.next = getButton( 'next', options.$next, '>' );
     defaults.dom.prev = getButton( 'prev', options.$prev, '<'  );
     
-    image.onload = function () {
-      image.classList.add( TRANSITION_CLASS );
-      defaults.dom.desc && ( defaults.dom.desc.textContent = photos[photoIndex].alt );
-    };
+    image.addEventListener( 'load', imageLoad );
     
     //Work-around: WebKit and Blink do not display <img> alt text.
-    image.onerror = function () {
-      defaults.dom.desc.textContent = (/WebKit/.test( navigator.userAgent ) ?
-            defaults.dom.desc.textContent : '') + ' Unable to fetch image!';
-    };
+    image.addEventListener( 'error', imageError );
     
     if ( options.images ) {
       
