@@ -1,13 +1,19 @@
 (function ( document, navigator ) {
 
-  function calcDistance( x1, y1, x2, y2 ) {
-    var dLat = rad( y1 - y2 ),
-      dLon = rad( x1 - x2 ),
+  var currentPosition, $distance,
+    currentImageLocation = {
+      longitude: 0,
+      latitude: 0
+    };
+
+  function calcDistance( p1, p2 ) {
+    var dLat = rad( p1.latitude - p2.latitude ),
+      dLon = rad( p1.longitude - p2.longitude ),
 
       R = 6371,
 
       a = Math.pow( Math.sin( dLat/2 ), 2 ) +
-        ( Math.cos( rad( y1 ) ) * Math.cos( rad( y2 ) ) *
+        ( Math.cos( rad( p1.latitude ) ) * Math.cos( rad( p2.latitude ) ) *
         Math.pow( Math.sin( dLon/2 ), 2 ) ),
       c = 2 * Math.atan2( Math.sqrt( a ), Math.sqrt( 1-a ) );
 
@@ -18,11 +24,25 @@
   	return degrees * ( Math.PI / degrees );
   }
 
+  function updateImageCoords() {
+  	currentImageLocation.longitude = this.getAttribute( 'longitude' );
+  	currentImageLocation.latitude = this.getAttribute( 'latitude' );
+
+    document.querySelector( $distance ).textContent = calcDistance( currentPosition, currentImageLocation );
+  }
+
+  function attachImageClickHandler( image ) {
+    image.addEventListener( 'click', updateImageCoords );
+  }
+
   AG.extend(function ( $, options ) {
+  	$.dom.images.forEach( attachImageClickHandler );
+
+    $distance = options.$distance;
+
     if ( navigator.geolocation ) {
       navigator.geolocation.getCurrentPosition(function( position ) {
-        document.querySelector( options.$distance ).textContent = calcDistance( position.coords.longitude, position.coords.latitude,
-                            AG.location.longitude, AG.location.latitude );
+        currentPosition = position.coords;
       }, function( error ) {
       	switch( error.code ) {
           case error.UNKNOWN_ERROR:
