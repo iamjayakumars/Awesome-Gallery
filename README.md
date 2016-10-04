@@ -1,6 +1,6 @@
 Awesome-Gallery
 ===============
 
-A lightweight, powerful and simple photo gallery for the web.
+An awesome photo gallery that can be embedded quickly, while keeping it lightweight, interoperable and customizable.
 
-The library leaves you free to style elements the way you want to and no complicated DOM structures are created. (HTML and CSS samples will be coming with v0.5.)
+API documentation for 0.5 will soon be available in the project Wikis.

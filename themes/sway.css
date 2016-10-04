@@ -1,0 +1,11 @@
+.mainPhoto {
+    transform: translateX(200%);
+    -webkit-transform: translateX(200%);
+}
+
+.mainPhoto.view {
+    transform: translateX(0);
+    -webkit-transform: translateX(0);
+}
+
+body { overflow-x: hidden; }

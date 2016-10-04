@@ -1,0 +1,22 @@
+.mainPhoto {
+    width: 100%;
+}
+
+.photoStrip {
+    height: 20px;
+    background-color: rgb(200, 200, 200);
+}
+
+.photo {
+    display: none;
+}
+
+.photoStrip:hover {
+    height: 150px;
+}
+
+.photoStrip:hover > .photo {
+    display: inline-block;
+    float: left;
+    height: 100%;
+}
